@@ -152,7 +152,7 @@ As shown in in \ref{fig.1} and \ref{fig.2}, the PRT, APD, and DIV values of the 
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/leumi/לאומי_prt.png}
+\includegraphics[scale=0.5]{LREC_PAPER/leumi/לאומי_prt.png}
 \caption{PRT over time of the word "Le'umi".}
 \label{fig.1}
 \end{center}
@@ -162,7 +162,7 @@ As shown in in \ref{fig.1} and \ref{fig.2}, the PRT, APD, and DIV values of the 
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/leumi/לאומי_div.png}
+\includegraphics[scale=0.5]{LREC_PAPER/leumi/לאומי_div.png}
 \caption{DIV over time of the word "Le'umi".}
 \label{fig.2}
 \end{center}
@@ -172,7 +172,7 @@ As shown in in \ref{fig.1} and \ref{fig.2}, the PRT, APD, and DIV values of the 
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/leumi/לאומי_jsd.png}
+\includegraphics[scale=0.5]{LREC_PAPER/leumi/לאומי_jsd.png}
 \caption{JSD over time of the word "Le'umi".}
 \label{fig.3}
 \end{center}
@@ -182,7 +182,7 @@ As shown in in \ref{fig.1} and \ref{fig.2}, the PRT, APD, and DIV values of the 
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/leumi/לאומי_apd.png}
+\includegraphics[scale=0.5]{LREC_PAPER/leumi/לאומי_apd.png}
 \caption{APD over time of the word "Le'umi".}
 \label{fig.4}
 \end{center}
@@ -195,7 +195,7 @@ Unlike the word "Le'umi", the word "Aravi" presents a more volatile semantic his
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/aravi/ערבי_prt.png}
+\includegraphics[scale=0.5]{LREC_PAPER/aravi/ערבי_prt.png}
 \caption{PRT over time of the word "Aravi".}
 \label{fig.5}
 \end{center}
@@ -206,7 +206,7 @@ Unlike the word "Le'umi", the word "Aravi" presents a more volatile semantic his
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/aravi/ערבי_div.png}
+\includegraphics[scale=0.5]{LREC_PAPER/aravi/ערבי_div.png}
 \caption{DIV over time of the word "Aravi".}
 \label{fig.6}
 \end{center}
@@ -217,7 +217,7 @@ Unlike the word "Le'umi", the word "Aravi" presents a more volatile semantic his
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/aravi/ערבי_jsd.png}
+\includegraphics[scale=0.5]{LREC_PAPER/aravi/ערבי_jsd.png}
 \caption{JSD over time of the word "Aravi".}
 \label{fig.7}
 \end{center}
@@ -228,17 +228,14 @@ Unlike the word "Le'umi", the word "Aravi" presents a more volatile semantic his
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/aravi/ערבי_apd.png}
+\includegraphics[scale=0.5]{LREC_PAPER/aravi/ערבי_apd.png}
 \caption{APD over time of the word "Aravi".}
 \label{fig.8}
 \end{center}
 \end{figure}
-
-\section{Limitations and Error}
-
 \section{Conclusion}
 \subsection{Future Work}
-While this experiment was interesting, again, it is not guaranteed that semantic change detected via contextualized word embeddings can be understood a priori without extensive manual work. Our findings could be juxtaposed with tracking semantic change via grammatical profiling, per \cite{grammaticalprofiling}. Particularly, there is some work on the semantic values of Hebrew verbal templates, known as \textit{binyanim} that are worth investigating with computational methods.
+While this experiment was interesting, again, it is not guaranteed that semantic change detected via contextualized word embeddings can be understood a priori without extensive manual work. Our findings could be juxtaposed with tracking semantic change via grammatical profiling, per \cite{grammaticalprofiling}. Particularly, there is some work on the semantic values of Hebrew verbal templates, known as \textit{binyanim}, that that they are worth investigating with computational methods.
 %\section{Citing References in the Text}
 
 %\subsection{Language Resource References}
@@ -285,6 +282,7 @@ Place all acknowledgements (including those concerning research grants and fundi
 \label{lr:ref}
 \bibliographystylelanguageresource{lrec2022-bib}
 \bibliographylanguageresource{languageresource}
+
 \section*{Appendices: CWE Representations of Tokens}
 These plots contain Principal Component Analysis (PCA) representations of contextualized word embeddings of the words "Le'umi" and "Aravi" in a given time period, where each embedding is reduced to 3 components (one is expressed by color). It should be noted that because the embeddings have been run through PCA, they are only approximate representations of the embeddings in their full, 768-dimensional form. The axes therefore don't have any meaning beyond relative distance between each point representing an embedding.
 
@@ -294,7 +292,7 @@ These plots contain Principal Component Analysis (PCA) representations of contex
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/leumi_cwes/1910.png}
+\includegraphics[scale=0.5]{LREC_PAPER/leumi_cwes/1910.png}
 \caption{"Le'umi", 1910-1915.}
 \label{Leumi1}
 \end{center}
@@ -305,7 +303,7 @@ These plots contain Principal Component Analysis (PCA) representations of contex
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/leumi_cwes/1915.png}
+\includegraphics[scale=0.5]{LREC_PAPER/leumi_cwes/1915.png}
 \caption{"Le'umi", 1915-1920.}
 \label{Leumi2}
 \end{center}
@@ -316,7 +314,7 @@ These plots contain Principal Component Analysis (PCA) representations of contex
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/leumi_cwes/1920.png}
+\includegraphics[scale=0.5]{LREC_PAPER/leumi_cwes/1920.png}
 \caption{"Le'umi", 1920-1925.}
 \label{Leumi3}
 \end{center}
@@ -327,7 +325,7 @@ These plots contain Principal Component Analysis (PCA) representations of contex
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/leumi_cwes/1925.png}
+\includegraphics[scale=0.5]{LREC_PAPER/leumi_cwes/1925.png}
 \caption{"Le'umi", 1925-1930.}
 \label{Leumi4}
 \end{center}
@@ -338,7 +336,7 @@ These plots contain Principal Component Analysis (PCA) representations of contex
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/leumi_cwes/1930.png}
+\includegraphics[scale=0.5]{LREC_PAPER/leumi_cwes/1930.png}
 \caption{"Le'umi", 1930-1935.}
 \label{Leumi5}
 \end{center}
@@ -350,7 +348,7 @@ These plots contain Principal Component Analysis (PCA) representations of contex
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/aravi_cwes/aravi_1920.png}
+\includegraphics[scale=0.5]{LREC_PAPER/aravi_cwes/aravi_1920.png}
 \caption{"Aravi", 1920-1925.}
 \label{Aravi1}
 \end{center}
@@ -361,7 +359,7 @@ These plots contain Principal Component Analysis (PCA) representations of contex
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/aravi_cwes/aravi_1925.png}
+\includegraphics[scale=0.5]{LREC_PAPER/aravi_cwes/aravi_1925.png}
 \caption{"Aravi", 1925-1930.}
 \label{Aravi2}
 \end{center}
@@ -372,7 +370,7 @@ These plots contain Principal Component Analysis (PCA) representations of contex
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/aravi_cwes/aravi_1930.png}
+\includegraphics[scale=0.5]{LREC_PAPER/aravi_cwes/aravi_1930.png}
 \caption{"Aravi", 1930-1935.}
 \label{Aravi3}
 \end{center}
@@ -383,7 +381,7 @@ These plots contain Principal Component Analysis (PCA) representations of contex
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{lrec_2022_latex_template/aravi_cwes/aravi_1935.png}
+\includegraphics[scale=0.5]{LREC_PAPER/aravi_cwes/aravi_1935.png}
 \caption{"Aravi", 1935-1940.}
 \label{Aravi4}
 \end{center}
