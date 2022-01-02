@@ -1,0 +1,169 @@
+%%% ====================================================================
+%%%  BibTeX-file{
+%%%     author          = "David Rhead",
+%%%     version         = "1.00",
+%%%     date            = "17 Feb 1990",
+%%%     time            = "17:00 GMT",
+%%%     filename        = "test.bib",
+%%%     address         = "Cripps Computing Centre,
+%%%                        University of Nottingham,
+%%%                        University Park,
+%%%                        Nottingham,
+%%%                        NG7 2RD,
+%%%                        United Kingdom",
+%%%     telephone       = "+44 602 484848 Ext 2670",
+%%%     FAX             = "+44 602 588138",
+%%%     checksum        = "05151 839 2908 25082",
+%%%     email           = "David_Rhead at uk.ac.nott.vme (JANET)",
+%%%     codetable       = "ISO/ASCII",
+%%%     keywords        = "bibliography, citation, references",
+%%%     supported       = "no",
+%%%     docstring       = "This BibTeX database file contains entries
+%%%                        designed for testing whether a BibTeX style
+%%%                        file lays references out as recommended by
+%%%                        certain authorities.  (Note, however, that
+%%%                        the BS 1629 examples are from the 1976
+%%%                        edition.  The file needs updating to use
+%%%                        examples from the 1989 edition instead.)
+%%%
+%%%                        The checksum field above contains a CRC-16
+%%%                        checksum as the first value, followed by the
+%%%                        equivalent of the standard UNIX wc (word
+%%%                        count) utility output of lines, words, and
+%%%                        characters.  This is produced by Robert
+%%%                        Solovay's checksum utility.",
+%%%  }
+%%% ====================================================================
+%% @COMMENT{Some other standard works describing conventions for citations
+%%      and bibliographies}
+
+% articles
+
+@inproceedings{Martinc2020,
+author = {Martinc, Matej and Montariol, Syrielle and Zosa, Elaine and Pivovarova, Lidia},
+year = {2020},
+month = {04},
+pages = {343-349},
+title = {Capturing Evolution in Word Usage: Just Add More Clusters?},
+doi = {10.1145/3366424.3382186}
+}
+
+@inproceedings{Giulianelli2020,
+    title = "Analysing Lexical Semantic Change with Contextualised Word Representations",
+    author = "Giulianelli, Mario  and
+      Del Tredici, Marco  and
+      Fern{\'a}ndez, Raquel",
+    booktitle = "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics",
+    month = jul,
+    year = "2020",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2020.acl-main.365",
+    doi = "10.18653/v1/2020.acl-main.365",
+    pages = "3960--3973",
+    abstract = "This paper presents the first unsupervised approach to lexical semantic change that makes use of contextualised word representations. We propose a novel method that exploits the BERT neural language model to obtain representations of word usages, clusters these representations into usage types, and measures change along time with three proposed metrics. We create a new evaluation dataset and show that the model representations and the detected semantic shifts are positively correlated with human judgements. Our extensive qualitative analysis demonstrates that our method captures a variety of synchronic and diachronic linguistic phenomena. We expect our work to inspire further research in this direction.",
+}
+
+@article{Laicher2021,
+  author    = {Severin Laicher and
+               Sinan Kurtyigit and
+               Dominik Schlechtweg and
+               Jonas Kuhn and
+               Sabine Schulte im Walde},
+  title     = {Explaining and Improving {BERT} Performance on Lexical Semantic Change
+               Detection},
+  journal   = {CoRR},
+  volume    = {abs/2103.07259},
+  year      = {2021},
+  url       = {https://arxiv.org/abs/2103.07259},
+  eprinttype = {arXiv},
+  eprint    = {2103.07259},
+  timestamp = {Tue, 23 Mar 2021 16:29:47 +0100},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-2103-07259.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+% probably needs to be completed
+@phdthesis{Kutuzov2020,
+author = {Andrey Kutuzov},
+title = {Distributional Word Embeddings in Modeling Diachronic Semantic Change},
+school = {University of Oslo},
+year = {2020}
+}
+
+@article{McCarthy:Clusterability,
+    author = {McCarthy, Diana and Apidianaki, Marianna and Erk, Katrin},
+    title = "{Word Sense Clustering and Clusterability}",
+    journal = {Computational Linguistics},
+    volume = {42},
+    number = {2},
+    pages = {245-275},
+    year = {2016},
+    month = {06},
+    abstract = "{Word sense disambiguation and the related field of automated word sense induction traditionally assume that the occurrences of a lemma can be partitioned into senses. But this seems to be a much easier task for some lemmas than others. Our work builds on recent work that proposes describing word meaning in a graded fashion rather than through a strict partition into senses; in this article we argue that not all lemmas may need the more complex graded analysis, depending on their partitionability. Although there is plenty of evidence from previous studies and from the linguistics literature that there is a spectrum of partitionability of word meanings, this is the first attempt to measure the phenomenon and to couple the machine learning literature on clusterability with word usage data used in computational linguistics.We propose to operationalize partitionability as clusterability, a measure of how easy the occurrences of a lemma are to cluster. We test two ways of measuring clusterability: (1) existing measures from the machine learning literature that aim to measure the goodness of optimal k-means clusterings, and (2) the idea that if a lemma is more clusterable, two clusterings based on two different “views” of the same data points will be more congruent. The two views that we use are two different sets of manually constructed lexical substitutes for the target lemma, on the one hand monolingual paraphrases, and on the other hand translations. We apply automatic clustering to the manual annotations. We use manual annotations because we want the representations of the instances that we cluster to be as informative and “clean” as possible. We show that when we control for polysemy, our measures of clusterability tend to correlate with partitionability, in particular some of the type-(1) clusterability measures, and that these measures outperform a baseline that relies on the amount of overlap in a soft clustering.}",
+    issn = {0891-2017},
+    doi = {10.1162/COLI_a_00247},
+    url = {https://doi.org/10.1162/COLI\_a\_00247},
+    eprint = {https://direct.mit.edu/coli/article-pdf/42/2/245/1807532/coli\_a\_00247.pdf},
+}
+
+@article{Rubinstein2019,
+author = {Rubinstein, Aynat},
+year = {2019},
+month = {12},
+pages = {},
+title = {Historical corpora meet the digital humanities: the Jerusalem Corpus of Emergent Modern Hebrew},
+volume = {53},
+journal = {Language Resources and Evaluation},
+doi = {10.1007/s10579-019-09458-4}
+}
+
+@misc{tsarfaty2019whats,
+      title={What's Wrong with Hebrew NLP? And How to Make it Right}, 
+      author={Reut Tsarfaty and Amit Seker and Shoval Sadde and Stav Klein},
+      year={2019},
+      eprint={1908.05453},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+@article{grammaticalprofiling,
+  author    = {Mario Giulianelli and
+               Andrey Kutuzov and
+               Lidia Pivovarova},
+  title     = {Grammatical Profiling for Semantic Change Detection},
+  journal   = {CoRR},
+  volume    = {abs/2109.10397},
+  year      = {2021},
+  url       = {https://arxiv.org/abs/2109.10397},
+  eprinttype = {arXiv},
+  eprint    = {2109.10397},
+  timestamp = {Mon, 27 Sep 2021 15:21:05 +0200},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-2109-10397.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+% software
+@article{yap,
+    title = "Joint Transition-Based Models for Morpho-Syntactic Parsing: Parsing Strategies for {MRL}s and a Case Study from Modern {H}ebrew",
+    author = "More, Amir  and
+      Seker, Amit  and
+      Basmova, Victoria  and
+      Tsarfaty, Reut",
+    journal = "Transactions of the Association for Computational Linguistics",
+    volume = "7",
+    year = "2019",
+    url = "https://www.aclweb.org/anthology/Q19-1003",
+    doi = "10.1162/tacl_a_00253",
+    pages = "33--48",
+    abstract = "In standard NLP pipelines, morphological analysis and disambiguation (MA{\&}D) precedes syntactic and semantic downstream tasks. However, for languages with complex and ambiguous word-internal structure, known as morphologically rich languages (MRLs), it has been hypothesized that syntactic context may be crucial for accurate MA{\&}D, and vice versa. In this work we empirically confirm this hypothesis for Modern Hebrew, an MRL with complex morphology and severe word-level ambiguity, in a novel transition-based framework. Specifically, we propose a joint morphosyntactic transition-based framework which formally unifies two distinct transition systems, morphological and syntactic, into a single transition-based system with joint training and joint inference. We empirically show that MA{\&}D results obtained in the joint settings outperform MA{\&}D results obtained by the respective standalone components, and that end-to-end parsing results obtained by our joint system present a new state of the art for Hebrew dependency parsing.", 
+}
+
+@misc{alephBERT,
+      title={AlephBERT:A Hebrew Large Pre-Trained Language Model to Start-off your Hebrew NLP Application With}, 
+      author={Amit Seker and Elron Bandel and Dan Bareket and Idan Brusilovsky and Refael Shaked Greenfeld and Reut Tsarfaty},
+      year={2021},
+      eprint={2104.04052},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
