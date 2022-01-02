@@ -136,9 +136,11 @@ As mentioned in \ref{JSD}, in order to calculate the Jensen-Shannon Divergence b
 After preprocessing a given word usage matrix pair $\textbf{u}^{t}_w, \textbf{u}^{t'}_w$ by subtracting the mean and normalizing them to unit variance, we chose to cluster the word usage matrices together with Affinity Propagation (AP), following \cite{Martinc2020,Kutuzov2020}. Although the change in word usage is difficult to track due to the fact that AP naturally creates many clusters, it doesn't rely on an arbitrarily-set number of clusters which may not necessarily represent each sense in which a given word is used. To account for computational complexity, we randomly sampled each word usage matrix to a maximum size of 1,024 vectors (the maximum word usage matrix size to be clustered therefore has a maximum of 2,048 vectors).
 
 \section{Observations}
+\subsection{Distribution of Scores}
+Upon looking at the distributions of lexical semantic change scores by years, it is evident that APD 
+\subsection{Some Examples}
 Politically charged words, such as ethnic groups, governing bodies, and wars had particular interesting results. 
-
-\subsection{Example 1: Le'umi (trans. 'national')}
+\subsubsection{Example 1: Le'umi (trans. 'national')}
 The word "Le'umi" has several significantly different word-senses (not an exhaustive list):
 \begin{itemize}
     \item Le'umi: National
@@ -188,7 +190,7 @@ As shown in in \ref{fig.1} and \ref{fig.2}, the PRT, APD, and DIV values of the 
 \end{center}
 \end{figure}
 
-\subsection{Example 2: Aravi (trans. 'Arab')}
+\subsubsection{Example 2: Aravi (trans. 'Arab')}
 Unlike the word "Le'umi", the word "Aravi" presents a more volatile semantic history, which is most obvious in the DIV and JSD measures. Looking at the figures \ref{Aravi1} through \ref{Aravi4}, it seems that this is caused by the word slowly forming distinct word-senses over time, peaking around 1935. Around that time was the Arab Revolt of 1936-1939, which may have contributed to the significant semantic drift.
 \begin{figure}[!h]
 \begin{center}
@@ -235,7 +237,8 @@ Unlike the word "Le'umi", the word "Aravi" presents a more volatile semantic his
 \end{figure}
 \section{Conclusion}
 \subsection{Future Work}
-While this experiment was interesting, again, it is not guaranteed that semantic change detected via contextualized word embeddings can be understood a priori without extensive manual work. Our findings could be juxtaposed with tracking semantic change via grammatical profiling, per \cite{grammaticalprofiling}. Particularly, there is some work on the semantic values of Hebrew verbal templates, known as \textit{binyanim}, that that they are worth investigating with computational methods.
+While this experiment was interesting, again, it is not guaranteed that semantic change detected via contextualized word embeddings can be easily understood a priori without extensive manual work. Our findings could be juxtaposed with tracking semantic change via grammatical profiling, per \cite{grammaticalprofiling}. Particularly, there is some work on the semantic values of Hebrew verbal templates, known as \textit{binyanim}, that that they are worth investigating with computational methods. % cite this
+
 %\section{Citing References in the Text}
 
 %\subsection{Language Resource References}
