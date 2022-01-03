@@ -72,7 +72,7 @@ In this paper, we focus on an analysis of the Dated BYP subcorpus, in the time r
 The following repositories contain the code we used for this experiment:
 \begin{itemize}
     \item The proprietary data frame for word usage matrices and corpus, code for distance measures, and code for extracting BERT embeddings can be found at \href{https://github.com/rbesaleli/dcwetk}{https://github.com/rbesaleli/dcwetk}.
-    \item The code for the experiments can be found at *insert link here*.
+    \item The code for the experiments can be found at \href{https://github.com/rbesaleli/LSCD-EmergentModernHebrew}{https://github.com/rbesaleli/LSCD-EmergentModernHebrew}.
 \end{itemize}
 \section{Related Work}
 Applying unsupervised machine learning methods to contextualized word embeddings has proven to be an effective technique for diachronic LSCD, and has been shown to positively correlate with human judgments regarding diachronic semantic shift \cite{Giulianelli2020,Kutuzov2020}, especially when the contextualized word embeddings are extracted from ELMo \cite{Kutuzov2020}. The specific methods used are diverse, ranging from tracking the movement of word embedding clouds through semantic space, to measuring change in word usage distributions over time via word-sense induction using clustering.
@@ -89,55 +89,130 @@ It should also be noted that many of these related works worked with languages s
 \subsection{Preprocessing the JEMH}
 
 \subsubsection{Lemmatization}
-After tokenization, the corpus is lemmatized in order to relieve any bias created by Hebrew's morphological richness. To do this, we utilize Yet Another Parser (YAP), a morphological analyzer for Modern Hebrew, written in Go \cite{yap}. Word forms, lemmas, POS tags, and any relevant morphological features are collected from YAP's morphological disambiguator. 
+After tokenization, the corpus is lemmatized in order to relieve any bias created by Hebrew's morphological richness\cite{Laicher2021}. To do this, we utilize Yet Another Parser (YAP), a morphological analyzer for Modern Hebrew, written in Go \cite{yap}. Word forms, lemmas, POS tags, and any relevant morphological features are collected from YAP's morphological disambiguator. 
 \subsubsection{Generating Contextualized Word Embeddings}
 To generate contextualized word embeddings, we fed the lemmatized corpus through AlephBERT, a large distribution of BERT, pre-trained on a variety of corpora, including Modern Hebrew Twitter, Wikipedia, and OSCAR \cite{alephBERT}. The raw contextualized word embeddings themselves were generated from its hidden states. We choose to omit any fine-tuning of the BERT model, due to its mixed results.
+
+\subsection{Word Usage Matrix}
+Given a word usage matrices, $\textbf{U}^{t}_w$, where a word usage matrix is a matrix containing the contextualized word embeddings of all instances of a given token $w$ in time period $t$, and its size (i.e., number of embeddings) $N^t_w$:
+
+\subsubsection{Prototype}
+The prototype of a word usage matrix, which may be interpreted as a "context-averaged embedding" of a token, is calculated as follows:
+
+$$\textbf{p}^t_w = \frac{\sum_{x_i \in \textbf{U}^t_w} x_i}{N^t_w}$$
 
 \subsection{Measuring Distance}
 \label{distance}
 % need section on word usage matrix representation!!!
-To measure diachronic lexical semantic change of a token, we use 4 different methods, per \cite{Kutuzov2020,Giulianelli2020}. Given two word usage matrices, $\textbf{u}^{t}_w, \textbf{u}^{t'}_w$, representing token $w$ in two time periods $t, t'$, respectively, and their prototypes\footnote{The prototype of a word usage matrix $\textbf{u}^t_w$ may be calculated as follows: $\textsc{prototype}(\textbf{u}^t_w) = \frac{\sum_{x_i \in \textbf{u}^t_w} x_i}{N^t_w}$} $p^{t}_w, p^{t'}_w$, respectively:
+To measure diachronic lexical semantic change of a token, we use 4 different methods, per \cite{Kutuzov2020,Giulianelli2020}. Given two word usage matrices, $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$, representing token $w$ in two time periods $t, t'$, respectively, where a word usage matrix is a matrix containing the contextualized word embeddings of all instances of a given token in time period $t$:
 
 \subsubsection{Inverse Cosine Over Word Prototypes}
-Inverse Cosine Over Word Prototypes (PRT) measures the inverted cosine similarity $d$ between the prototypes ("averages") of two given word matrices $\textbf{u}^{t}_w, \textbf{u}^{t'}_w$:
-$$\textsc{PRT}(\textbf{u}^{t}_w, \textbf{u}^{t'}_w) = d(p^{t}_w, p^{t'}_w)^{-1}$$
+Inverse Cosine Over Word Prototypes (PRT) measures the inverted cosine similarity $d$ between the prototypes ("averages") of two given word matrices $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$:
+$$\textsc{PRT}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = d(p^{t}_w, p^{t'}_w)^{-1}$$
 % $$PRT(\textbf{u}^{t}_w, \textbf{u}^{t'}_w) = d(\frac{\sum_{x_i \in \textbf{u}^{t}_w} x_i}{N^{t}_{w}}, \frac{\sum_{x_i \in \textbf{u}^{t'}_w} x_i}{N^{t'}_{w}})^{-1}$$
 Because a prototype is a relatively shallow representation of a word usage matrix, PRT only gives an idea of the absolute diachronic movement of a word usage matrix in space, and does not explicitly embed how the structure of the word usage matrix changes over time.
 
 \subsubsection{Average Pairwise Cosine Distance Between Token Embeddings}
-Average Pairwise Cosine Distance Between Token Embeddings (APD) sums all cosine distances between every possible pair of embeddings in each given word usage matrix $\textbf{u}^{t}_w, \textbf{u}^{t'}_w$, which is then divided by the aggregate number of possible embedding pairs:
-$$\textsc{APD}(\textbf{u}^{t}_w, \textbf{u}^{t'}_w) = \frac{1}{N^{t}_w \cdot N^{t'}_w} \sum_{x_i \in \textbf{u}^{t}_w, x_j \in \textbf{u}^{t'}_w} d(x_i, x_j)$$
+Average Pairwise Cosine Distance Between Token Embeddings (APD) sums all cosine distances between every possible pair of embeddings in each given word usage matrix $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$, which is then divided by the aggregate number of possible embedding pairs:
+$$\textsc{APD}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = \frac{1}{N^{t}_w \cdot N^{t'}_w} \sum_{x_i \in \textbf{U}^{t}_w, x_j \in \textbf{U}^{t'}_w} d(x_i, x_j)$$
 Like PRT, since APD also utilizes a somewhat shallow understanding of each word usage matrix, it also does not embed any meaningful information of how the structure of the word usage matrix changes over time. Thus, it may be interpreted as the average distance each individual embedding moves over time.\\
 
 Because APD has a significant computational load, with a worst-case time complexity of $O(n^2)$, we chose to run it on samples of each word usage matrices in the event that $N^{t}_w \cdot N^{t'}_w > 256$. How large these samples were was calculated by the following formula for each pair of word usage matrices:
-$$n(\textbf{u}^{t}_w, \textbf{u}^{t'}_w) = \frac{256}{N^{t}_w \cdot N^{t'}_w}$$
+$$n(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = \frac{256}{N^{t}_w \cdot N^{t'}_w}$$
 While not ideal, this gave us a reasonable cap on the number of possible computations that could occur that maintained the relative sizes of each word usage matrix. % reword this
 
 \subsubsection{Jensen-Shannon Divergence}
 \label{JSD}
-Jensen-Shannon Divergence (JSD) measures how the distribution of word-senses for each word usage matrix $\textbf{u}^{t}_w, \textbf{u}^{t'}_w$ change over time, where $H$ is the Boltzmann-Gibbs-Shannon Entropy:
-\small $$\textsc{JSD}(\textbf{u}^{t}_w, \textbf{u}^{t'}_w) = H(\frac{1}{2}(\textbf{u}^{t}_w + \textbf{u}^{t'}_w)) - \frac{1}{2}(H(\textbf{u}^{t}_w) - H(\textbf{u}^{t'}_w))$$
+Jensen-Shannon Divergence (JSD) measures how the distribution of word-senses for each word usage matrix $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$ change over time, where $H$ is the Boltzmann-Gibbs-Shannon Entropy \cite{jensenshannon}:
+\small $$\textsc{JSD}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = H(\frac{1}{2}(\textbf{U}^{t}_w + \textbf{U}^{t'}_w)) - \frac{1}{2}(H(\textbf{U}^{t}_w) - H(\textbf{U}^{t'}_w))$$
 The word usage matrices above must be clustered to obtain the distribution of word-senses mentioned above. How we obtained said clusterings is discussed in the \ref{clustering}.
 \subsubsection{Difference between Token Embedding Diversities}
-Difference between Token Embedding Diversity (DIV) measures the difference in the average distance of a given embedding in a word usage matrix to its prototype between two word usage matrices $\textbf{u}^{t}_w, \textbf{u}^{t'}_w$:
+Difference between Token Embedding Diversity (DIV) measures the difference in the average distance of a given embedding in a word usage matrix to its prototype between two word usage matrices $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$:
 % align with amsmath or reformat
-$$\textsc{DIV}(\textbf{u}^{t}_w, \textbf{u}^{t'}_w) = $$ 
-$$\Bigg | \frac{\sum_{x_i \in \textbf{u}^{t}_w} d(x_i, p^{t}_w)}{N^{t}_w} - \frac{\sum_{x_j \in \textbf{u}^{t'}_w} d(x_j, p^{t'}_w)}{N^{t'}_w} \Bigg |$$
+$$\textsc{DIV}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = $$ 
+$$\Bigg | \frac{\sum_{x_i \in \textbf{U}^{t}_w} d(x_i, p^{t}_w)}{N^{t}_w} - \frac{\sum_{x_j \in \textbf{U}^{t'}_w} d(x_j, p^{t'}_w)}{N^{t'}_w} \Bigg |$$
 
 \subsection{Clustering}
 \label{clustering}
 As mentioned in \ref{JSD}, in order to calculate the Jensen-Shannon Divergence between two given word usage matrices, they must first be clustered in order to get their word usage distributions. There appears to be several schools of thought on how this should be done:
 \begin{itemize}
     \item{Following \cite{Martinc2020,Kutuzov2020}, the clusters could be obtained using Affinity Propagation. Although this has a significant time complexity, it does not require a predefined number of clusters.}
-    \item{Following \cite{Laicher2021}, the clusters could be obtained using Agglomerative Clustering, with the number of clusters found by the Silhouette Method.}
+    \item{Following \cite{Laicher2021}, the clusters could be obtained using Agglomerative Clustering, with the number of clusters found by the Silhouette Method\cite{silhouette}, an algorithm that determines the optimal number of clusters between a given range.}
     \item{Following \cite{Giulianelli2020}, the clusters could be obtained by using K-Means Clustering, with the number of clusters found by the Silhouette Method. The clusters are then run through Expectation Maximization (EM) for 10 iterations to reduce distortion.}
 \end{itemize}
 
-After preprocessing a given word usage matrix pair $\textbf{u}^{t}_w, \textbf{u}^{t'}_w$ by subtracting the mean and normalizing them to unit variance, we chose to cluster the word usage matrices together with Affinity Propagation (AP), following \cite{Martinc2020,Kutuzov2020}. Although the change in word usage is difficult to track due to the fact that AP naturally creates many clusters, it doesn't rely on an arbitrarily-set number of clusters which may not necessarily represent each sense in which a given word is used. To account for computational complexity, we randomly sampled each word usage matrix to a maximum size of 1,024 vectors (the maximum word usage matrix size to be clustered therefore has a maximum of 2,048 vectors).
+After preprocessing a given word usage matrix pair $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$ by subtracting the mean and normalizing them to unit variance, we chose to cluster the word usage matrices together with Affinity Propagation (AP), following \cite{Martinc2020,Kutuzov2020}. Although the change in word usage is difficult to track due to the fact that AP naturally creates many clusters, it doesn't rely on an arbitrarily-set number of clusters which may not necessarily represent each sense in which a given word is used. To account for computational complexity, we randomly sampled each word usage matrix to a maximum size of 1,024 vectors (the maximum word usage matrix size to be clustered therefore has a maximum of 2,048 vectors).
 
 \section{Observations}
 \subsection{Distribution of Scores}
-Upon looking at the distributions of lexical semantic change scores by years, it is evident that APD 
+Upon looking at the distributions of lexical semantic change scores by years, it is evident that APD and JSD scores roughly fit a skewed normal distribution, shown by example in \ref{1920_APD} and \ref{1920_JSD}, respectively. The skew of the distribution is much more prominent in the JSD scores, as shown in \ref{SkewKurtosis_JSDandAPD}.
+
+
+\begin{figure}[!h]
+\begin{center}
+%\fbox{\parbox{6cm}{
+%This is a figure with a caption.}}
+% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
+\includegraphics[scale=0.5]{code/distribution_imgs/1920_APD.png}
+\caption{Distribution of APD scores (by token) in 1920.}
+\label{1920_APD}
+\end{center}
+\end{figure}
+
+\begin{figure}[!h]
+\begin{center}
+%\fbox{\parbox{6cm}{
+%This is a figure with a caption.}}
+% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
+\includegraphics[scale=0.5]{code/distribution_imgs/1920_JSD.png}
+\caption{Distribution of JSD scores (by token) in 1920.}
+\label{1920_JSD}
+\end{center}
+\end{figure}
+
+% TODO: the borders are a bit screwy, fix later!!
+\begin{table}[!h]
+\label{SkewKurtosis_JSDandAPD}
+\begin{center}
+\begin{tabularx}{\columnwidth}{|c|c|c|c|c|}
+
+      \hline
+      Year&\multicolumn{2}{c}{JSD}&\multicolumn{2}{c}{APD}\\
+      \hline
+      &Skew&Kurtosis&Skew&Kurtosis \\
+      \hline
+      1880&1.293&1.984&0.344&1.239\\
+      \hline
+      1885&1.339&2.456&0.243&0.728\\
+      \hline
+      1890&1.549&3.149&0.122&1.108\\
+      \hline
+      1895&1.691&3.868&-0.288&2.664\\
+      \hline
+      1900&1.751&4.011&-0.068&1.882\\
+      \hline
+      1905&1.749&4.092&-0.016&1.381\\
+      \hline
+      1910&1.568&3.472&0.023&1.609\\
+      \hline
+      1915&1.379&2.469&0.093&2.192\\
+      \hline
+      1920&1.559&3.090&0.016&1.070\\
+      \hline
+      1925&1.657&3.559&0.032&1.237\\
+      \hline
+      1930&1.330&2.419&0.006&1.820\\
+      \hline
+      1935&1.049&1.506&-0.012&1.421\\
+      \hline
+      1940&0.943&0.746&0.271&0.657\\
+      \hline
+
+\end{tabularx}
+\caption{Skew and Kurtosis of JSD and APD values over time}
+ \end{center}
+\end{table}
+
 \subsection{Some Examples}
 Politically charged words, such as ethnic groups, governing bodies, and wars had particular interesting results. 
 \subsubsection{Example 1: Le'umi (trans. 'national')}
