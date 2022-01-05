@@ -1,12 +1,13 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def getTokenDF(dfs, years, token):
     filtered_dfs = []
     yrs = []
     for df, year in zip(dfs, years):
-        if token in df['token']:
+        if token in df['token'].to_list():
             filtered_dfs.append(df[df['token'] == token])
             yrs.append(year)
 
@@ -18,7 +19,7 @@ def getTokenDF(dfs, years, token):
 
 def graphDistances(dfs, years, token, saveFig=False):
     # instantiate figure
-    fig, [prt_ax, jsd_ax, div_ax, apd_ax] = plt.subplots(1, 4)
+    fig, [prt_ax, jsd_ax, div_ax, apd_ax] = plt.subplots(1, 4, figsize=(17, 4))
 
     # get df of particular token
     tokenDF = getTokenDF(dfs, years, token)
