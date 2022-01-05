@@ -33,7 +33,7 @@ def graphEmbeddings(lemmas, title):
 
     # instantiate plt figure
     fig = plt.figure()
-    ax = fig.add_suplot(projection='3d')
+    ax = fig.add_subplot(projection='3d')
     fig.suptitle(title)
 
     cmap = plt.cm.viridis
