@@ -25,12 +25,11 @@ def getLemmas(fileDir, toks):
     return lemmas
 
 
-def graphEmbeddings(lemmas, labs, title):
+def graphEmbeddings(lemmas, title):
     x, y, z = zip(*PCA(n_components=3).fit_transform(np.array([lem.embedding for lem in lemmas])))
     lemma_labs = [lem.lemma for lem in lemmas]
 
     df = pd.DataFrame({'token': lemma_labs, 'x': x, 'y': y, 'z': z})
-    df['labs'] = list(map(lambda j: labs[j], df['lemma_labs']))
 
     # instantiate plt figure
     fig = plt.figure()
