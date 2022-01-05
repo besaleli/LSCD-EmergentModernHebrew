@@ -24,8 +24,6 @@ def graphDistances(dfs, years, token, saveFig=False):
     # get df of particular token
     tokenDF = getTokenDF(dfs, years, token)
 
-    fig.suptitle('Diachronic LSC of token ' + token[::-1])
-
     for ax, cat in zip([prt_ax, jsd_ax, div_ax, apd_ax], ['prt', 'jsd', 'div', 'apd']):
         ax.set_title(cat.upper())
         ax.plot(tokenDF['year'], tokenDF[cat], c='black')
