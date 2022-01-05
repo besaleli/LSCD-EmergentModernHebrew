@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{soul}
+\usepackage{todonotes}
 % for eps graphics
 %%% References and Labels
 %%% Reference labels without a punctuation 
@@ -33,7 +34,7 @@
 
 \title{\vspace*{.5\baselineskip} \textbf{Lexical Semantic Change Detection in Resource-Light, Morphologically Rich Languages: A Case Study in Emergent Modern Hebrew}}
 
-\name{Raz Besaleli, Zachary Schultz} 
+\name{Raz Besaleli, Zachary Schultz}
 
 \address{Montclair State University \\
         1 Normal Ave \\
@@ -83,7 +84,7 @@ That said, the performance of type-based embeddings has been shown to exceed the
 
 An alternative to LSCD that utilizes grammatical profiling instead of contextualized word embeddings has been shown to be just as effective, if not more \cite{grammaticalprofiling}, with the added benefit that semantic change that is detected is significant more traceable than its counterpart that uses contextualized word embeddings. That said, its performance is contingent on understanding which grammatical features are correlated to semantic change. Which features are significant varies from language to language, and thus requires resources such as an existing corpus that is annotated with semantic information.
 
-It should also be noted that many of these related works worked with languages such as German, Swedish, and English, that had access to resources such as SemEval, and therefore had the ability to correlate their findings with human-annotated gold standards. Modern Hebrew does not have this luxury, which puts a significant limitation on what we are able to observe.
+It should also be noted that many of these related works are concerned with languages such as German, Swedish, and English, that had access to resources such as SemEval, and therefore had the ability to correlate their findings with human-annotated gold standards. Modern Hebrew does not have this luxury, which puts a significant limitation on what we are able to observe.
 \section{Experimental Design}
 
 \subsection{Preprocessing the JEMH}
@@ -94,7 +95,7 @@ After tokenization, the corpus is lemmatized in order to relieve any bias create
 To generate contextualized word embeddings, we fed the lemmatized corpus through AlephBERT, a large distribution of BERT, pre-trained on a variety of corpora, including Modern Hebrew Twitter, Wikipedia, and OSCAR \cite{alephBERT}. The raw contextualized word embeddings themselves were generated from its hidden states. We choose to omit any fine-tuning of the BERT model, due to its mixed results.
 
 \subsection{Word Usage Matrix}
-Given a word usage matrices, $\textbf{U}^{t}_w$, where a word usage matrix is a matrix containing the contextualized word embeddings of all instances of a given token $w$ in time period $t$, and its size (i.e., number of embeddings) $N^t_w$:
+Given a token $w$ and a time period $t$, we define word usage matrix $\textbf{U}^{t}_w$, where a word usage matrix is a matrix containing the contextualized word embeddings of all instances of a given token $w$ in time period $t$, and its size (i.e., number of embeddings) $N^t_w$.
 
 \subsubsection{Prototype}
 The prototype of a word usage matrix, which may be interpreted as a "context-averaged embedding" of a token, is calculated as follows:
@@ -104,13 +105,14 @@ $$\textbf{p}^t_w = \frac{\sum_{x_i \in \textbf{U}^t_w} x_i}{N^t_w}$$
 \subsection{Measuring Distance}
 \label{distance}
 % need section on word usage matrix representation!!!
-To measure diachronic lexical semantic change of a token, we use 4 different methods, per \cite{Kutuzov2020,Giulianelli2020}. Given two word usage matrices, $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$, representing token $w$ in two time periods $t, t'$, respectively, where a word usage matrix is a matrix containing the contextualized word embeddings of all instances of a given token in time period $t$:
+To measure diachronic lexical semantic change of a token, we use 4 different methods, per \cite{Kutuzov2020,Giulianelli2020}. Given all embedded instances of a token $w$ in two time periods $t, t'$, we define word usage matrices $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$.
 
 \subsubsection{Inverse Cosine Over Word Prototypes}
 Inverse Cosine Over Word Prototypes (PRT) measures the inverted cosine similarity $d$ between the prototypes ("averages") of two given word matrices $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$:
 $$\textsc{PRT}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = d(p^{t}_w, p^{t'}_w)^{-1}$$
 % $$PRT(\textbf{u}^{t}_w, \textbf{u}^{t'}_w) = d(\frac{\sum_{x_i \in \textbf{u}^{t}_w} x_i}{N^{t}_{w}}, \frac{\sum_{x_i \in \textbf{u}^{t'}_w} x_i}{N^{t'}_{w}})^{-1}$$
-Because a prototype is a relatively shallow representation of a word usage matrix, PRT only gives an idea of the absolute diachronic movement of a word usage matrix in space, and does not explicitly embed how the structure of the word usage matrix changes over time.
+% Because a prototype is a relatively shallow representation of a word usage matrix, PRT only gives an idea of the absolute diachronic movement of a word usage matrix in space, and does not explicitly embed how the structure of the word usage matrix changes over time. 
+This may be interpreted as the distance between a given token's "context-averaged embeddings" in two different time periods.
 
 \subsubsection{Average Pairwise Cosine Distance Between Token Embeddings}
 Average Pairwise Cosine Distance Between Token Embeddings (APD) sums all cosine distances between every possible pair of embeddings in each given word usage matrix $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$, which is then divided by the aggregate number of possible embedding pairs:
@@ -123,7 +125,7 @@ While not ideal, this gave us a reasonable cap on the number of possible computa
 
 \subsubsection{Jensen-Shannon Divergence}
 \label{JSD}
-Jensen-Shannon Divergence (JSD) measures how the distribution of word-senses for each word usage matrix $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$ change over time, where $H$ is the Boltzmann-Gibbs-Shannon Entropy \cite{jensenshannon}:
+Jensen-Shannon Divergence (JSD) measures how the distribution of word-senses for each word usage matrix $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$ changes over time, where $H$ is the Boltzmann-Gibbs-Shannon Entropy \cite{jensenshannon}:
 \small $$\textsc{JSD}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = H(\frac{1}{2}(\textbf{U}^{t}_w + \textbf{U}^{t'}_w)) - \frac{1}{2}(H(\textbf{U}^{t}_w) - H(\textbf{U}^{t'}_w))$$
 The word usage matrices above must be clustered to obtain the distribution of word-senses mentioned above. How we obtained said clusterings is discussed in the \ref{clustering}.
 \subsubsection{Difference between Token Embedding Diversities}
@@ -145,7 +147,8 @@ After preprocessing a given word usage matrix pair $\textbf{U}^{t}_w, \textbf{U}
 
 \section{Observations}
 \subsection{Distribution of Scores}
-Upon looking at the distributions of lexical semantic change scores by years, it is evident that APD and JSD scores roughly fit a skewed normal distribution, shown by example in \ref{1920_APD} and \ref{1920_JSD}, respectively. The skew of the distribution is much more prominent in the JSD scores, as shown in \ref{SkewKurtosis_JSDandAPD}.
+Upon looking at the distributions of lexical semantic change scores of all tokens in a given period of time, it is evident that APD and JSD scores, describing the change in distribution of word-senses over a period of time, roughly fit a skewed normal distribution, shown by Figure \ref{1920_APD} and \ref{1920_JSD}, respectively. The skew of the distribution is much more prominent in the JSD scores, as shown in \ref{SkewKurtosis_JSDandAPD}. \todo{elaborate on why}
+
 
 \begin{figure}[!h]
 \begin{center}
@@ -153,7 +156,7 @@ Upon looking at the distributions of lexical semantic change scores by years, it
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
 \includegraphics[scale=0.5]{code/distribution_imgs/1920_APD.png}
-\caption{Distribution of APD scores (by token) in 1920.}
+\caption{Distribution of APD scores (by token) from periods 1920-1925 to 1925-1930.}
 \label{1920_APD}
 \end{center}
 \end{figure}
@@ -164,7 +167,7 @@ Upon looking at the distributions of lexical semantic change scores by years, it
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
 \includegraphics[scale=0.5]{code/distribution_imgs/1920_JSD.png}
-\caption{Distribution of JSD scores (by token) in 1920.}
+\caption{Distribution of JSD scores (by token) from periods 1920-1925 to 1925-1930.}
 \label{1920_JSD}
 \end{center}
 \end{figure}
@@ -212,17 +215,17 @@ Upon looking at the distributions of lexical semantic change scores by years, it
  \end{center}
 \end{table}
 
-\subsection{Some Examples}
+\subsection{Some Examples}\todo{No transition from the previous section}
 Politically charged words, such as ethnic groups, governing bodies, and wars had particular interesting results. 
 \subsubsection{Example 1: Le'umi (trans. 'national')}
-The word "Le'umi" has several significantly different word-senses (not an exhaustive list):
+The word "Le'umi" has several significantly different word-senses (not an exhaustive list): \todo{Since you lemmatized your data, I wonder what forms were merged into one. I'll include some links in an email  } 
 \begin{itemize}
     \item Le'umi: National
     \item Bank Le'umi: Name of a historical bank in Israel
     \item Bituach Le'umi: Israeli health insurance system
 \end{itemize}
 
-As shown in in \ref{fig.1} and \ref{fig.2}, the PRT, APD, and DIV values of the word "le'umi" do not change much over time. While the explanation for the PRT feels rather obvious, considering the lack of movement shown in the graphs in \ref{Leumi1} through \ref{Leumi5}, why the DIV and APD values have such minute changes is unclear. That said, the JSD measure was significantly more sensitive; it is easy to track the change in clusters over time. Overall, the word-senses of each time period do appear to be relatively stable.
+As shown in Figures \ref{fig.1}--\ref{fig.4}, the PRT and APD values of the word "le'umi" do not change much over time. While the explanation for the PRT feels rather obvious, considering the lack of movement shown in figures \ref{Leumi1} through \ref{Leumi5}, why the DIV and APD values have such minute changes is unclear.\todo{Explain to me these minute changes here? Did you mean DIV and JSD?} That said, the JSD measure was significantly more sensitive; it is easy to track the change in clusters over time. Overall, the word-senses of each time period do appear to be relatively stable.
 \begin{figure}[!h]
 \begin{center}
 %\fbox{\parbox{6cm}{
@@ -265,7 +268,7 @@ As shown in in \ref{fig.1} and \ref{fig.2}, the PRT, APD, and DIV values of the 
 \end{figure}
 
 \subsubsection{Example 2: Aravi (trans. 'Arab')}
-Unlike the word "Le'umi", the word "Aravi" presents a more volatile semantic history, which is most obvious in the DIV and JSD measures. Looking at the figures \ref{Aravi1} through \ref{Aravi4}, it seems that this is caused by the word slowly forming distinct word-senses over time, peaking around 1935. Around that time was the Arab Revolt of 1936-1939, which may have contributed to the significant semantic drift.
+Unlike the word "Le'umi", the word "Aravi" presents a more volatile semantic history, which is most obvious in the DIV and JSD measures. Looking at the figures in the Appendix, it seems that this is caused by the word slowly forming distinct word-senses over time, peaking around 1935. Around that time was the Arab Revolt of 1936-1939, which may have contributed to the significant semantic drift.
 \begin{figure}[!h]
 \begin{center}
 %\fbox{\parbox{6cm}{
