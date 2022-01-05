@@ -47,7 +47,7 @@ def apd(u1, u2, sample_size=None, min_sample_size=10, device=None, max_sample_si
     else:
         samp = lambda i: i
 
-    prevSample, currSample = samp(list(u1s)), samp(list(u2s.u))
+    prevSample, currSample = samp(list(u1s)), samp(list(u2s))
 
     arr1, arr2 = [], []
     for x, y in ((x, y) for x in prevSample for y in currSample):
