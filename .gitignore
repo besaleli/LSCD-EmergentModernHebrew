@@ -4,3 +4,4 @@
 code/utils/dcwetk/
 code/.ipynb_checkpoints/diachronic_wordsense_distributions-checkpoint.ipynb
 /byp_decade_wums
+*.DS_store
