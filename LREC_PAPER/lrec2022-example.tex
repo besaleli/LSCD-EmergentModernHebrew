@@ -147,7 +147,7 @@ After preprocessing a given word usage matrix pair $\textbf{U}^{t}_w, \textbf{U}
 
 \section{Observations}
 \subsection{Distribution of Scores}
-Upon looking at the distributions of lexical semantic change scores of all tokens in a given period of time, it is evident that APD and JSD scores, describing the change in distribution of word-senses over a period of time, roughly fit a skewed normal distribution, shown by Figure \ref{1920_APD} and \ref{1920_JSD}, respectively. The skew of the distribution is much more prominent in the JSD scores, as shown in \ref{SkewKurtosis_JSDandAPD}. \todo{elaborate on why}
+Upon looking at the distributions of lexical semantic change scores of all tokens in a given period of time, it is evident that APD and JSD scores, describing the change in distribution of word-senses over a period of time, roughly fit a skewed normal distribution, shown by Figure \ref{1920_APD} and \ref{1920_JSD}, respectively. The skew of the distribution is much more prominent in the JSD scores, as shown in \ref{SkewKurtosis_JSDandAPD}. We hypothesize that this is due to the fact that Jensen-Shannon Divergence is not a metric, though its square root, Jensen-Shannon Distance (JSDist), is. As shown in \ref{1920_JSDist}, the distribution of Jensen-Shannon Distance values is much more even.
 
 
 \begin{figure}[!h]
@@ -172,6 +172,17 @@ Upon looking at the distributions of lexical semantic change scores of all token
 \end{center}
 \end{figure}
 
+\begin{figure}[!h]
+\begin{center}
+%\fbox{\parbox{6cm}{
+%This is a figure with a caption.}}
+% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
+\includegraphics[scale=0.5]{code/distribution_imgs/1920_JSDist.png}
+\caption{Distribution of JSDist scores (by token) from periods 1920-1925 to 1925-1930.}
+\label{1920_JSDist}
+\end{center}
+\end{figure}
+
 % TODO: the borders are a bit screwy, fix later!!
 \begin{table}[!h]
 \label{SkewKurtosis_JSDandAPD}
@@ -181,7 +192,7 @@ Upon looking at the distributions of lexical semantic change scores of all token
       \hline
       Year&\multicolumn{2}{c}{JSD}&\multicolumn{2}{c}{APD}\\
       \hline
-      &Skew&Kurtosis&Skew&Kurtosis \\
+      &Skew&Kurtosis&Skew&Kurtosis\\
       \hline
       1880&1.293&1.984&0.344&1.239\\
       \hline
@@ -225,7 +236,9 @@ The word "Le'umi" has several significantly different word-senses (not an exhaus
     \item Bituach Le'umi: Israeli health insurance system
 \end{itemize}
 
-As shown in Figures \ref{fig.1}--\ref{fig.4}, the PRT and APD values of the word "le'umi" do not change much over time. While the explanation for the PRT feels rather obvious, considering the lack of movement shown in figures \ref{Leumi1} through \ref{Leumi5}, why the DIV and APD values have such minute changes is unclear.\todo{Explain to me these minute changes here? Did you mean DIV and JSD?} That said, the JSD measure was significantly more sensitive; it is easy to track the change in clusters over time. Overall, the word-senses of each time period do appear to be relatively stable.
+This polysemy is further deepened by MH's morphological richness.
+
+As shown in Figures \ref{fig.1}--\ref{fig.4}, the PRT and APD values of the word "le'umi" do not change much over time. While the explanation for the PRT feels rather obvious, considering the lack of movement shown in figures \ref{Leumi1} through \ref{Leumi5}, why the APD values over time remain stagnant is unclear. That said, the JSD measure was significantly more sensitive; it is easy to track the change in clusters over time. Overall, the word-senses of each time period do appear to be relatively stable.
 \begin{figure}[!h]
 \begin{center}
 %\fbox{\parbox{6cm}{
