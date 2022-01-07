@@ -30,10 +30,10 @@ def getWUMs(tok):
     return yrs, wums, master_length
 
 
-def graph_diachronic_usage(wums, years, tok):
-    freqs = list(map(lambda i: len(i.u), wums))
+def graph_diachronic_usage(wums, years, norms, tok):
+    freqs = [len(w) / norm for w, norm in zip(wums, norms)]
 
-    plt.bar(years, freqs)
+    plt.bar(years, freqs, color='black', width=1)
 
     plt.savefig('usage_imgs/' + tok + '.png')
 
