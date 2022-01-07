@@ -19,7 +19,7 @@ def getTokenDF(dfs, years, token):
 
 def graphDistances(dfs, years, token, saveFig=False):
     # instantiate figure
-    fig, [[prt_ax, jsd_ax], [div_ax, apd_ax]] = plt.subplots(2, 2, figsize=(9, 7))
+    fig, [prt_ax, jsd_ax, div_ax, apd_ax] = plt.subplots(1, 4, figsize=(18, 4))
 
     # get df of particular token
     tokenDF = getTokenDF(dfs, years, token)

@@ -43,4 +43,5 @@ def graphEmbeddings(lemmas, title):
                    label=dff['token'])
 
     plt.legend()
+    plt.show()
 
