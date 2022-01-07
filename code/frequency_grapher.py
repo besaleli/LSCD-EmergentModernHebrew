@@ -36,8 +36,9 @@ def getWUMs(tok):
 
 def graph_diachronic_usage(wums, years, norms, tok):
     freqs = [0 if w is None else len(w) / norm for w, norm in zip(wums, norms)]
-
-    plt.bar(years, freqs, color='black', width=1)
+    fig, ax = plt.subplots()
+    ax.set_ylim((0,0.001))
+    ax.bar(years, freqs, color='black', width=1)
 
     plt.savefig('usage_imgs/' + tok + '.png')
 
