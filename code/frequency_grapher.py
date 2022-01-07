@@ -18,14 +18,14 @@ def getWUMs(tok):
                 w = pickle.load(f)
                 f.close()
 
-        if tok in w.keys():
-            year_length = 0
-            for t, u in w.items():
-                year_length += len(u)
-                if t == tok:
-                    wums.append(u)  # get WUMs
+            if tok in w.keys():
+                year_length = 0
+                for t, u in w.items():
+                    year_length += len(u)
+                    if t == tok:
+                        wums.append(u)  # get WUMs
 
-            master_length.append(year_length)   # get total number of tokens in year
+                master_length.append(year_length)   # get total number of tokens in year
 
     return yrs, wums, master_length
 
