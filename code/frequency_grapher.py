@@ -12,8 +12,8 @@ def getWUMs(tok):
     print('getting wums...')
     for name in tqdm(glob.glob('byp_decade_wums/*.pickle')):
         yr = int(name[16:20])
-        yrs.append(yr)
         if 1880 <= yr <= 1950:
+            yrs.append(yr)
             with open(name, 'rb') as f:
                 w = pickle.load(f)
                 f.close()
