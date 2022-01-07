@@ -56,7 +56,7 @@ In the past few years, lexical semantic change detection (LSCD) using contextual
 \section{Introduction}
 
 \subsection{On Emergent Modern Hebrew}
-Modern Hebrew (MH) is a morphologically rich, resource-light language belonging to the Semitic branch of the Afro-Asiatic family. Its grammar is fusional and synthetic, with a complex verbal template system that often leads to significant morphological ambiguity, which is often also contributed to by its equally ambiguous orthography.
+Modern Hebrew (MH) is a morphologically rich, resource-light language belonging to the Semitic branch of the Afro-Asiatic family. Its grammar is fusional and synthetic, with a complex verbal template system that often leads to significant morphological ambiguity. MH's orthography also contributes to this ambiguity, as it is an abjad that does not notate all vowels.
 These traits make MH a particularly challenging language to work with in NLP. They, along with "language-agnostic" tools' general incompatibility with MH, have contributed to a significant deficiency of NLP resources for the language \cite{tsarfaty2019whats}.
 Emergent Modern Hebrew, a particular chronolect of Modern Hebrew, is a historical period in which Hebrew was exposed to a significant amount of language contact due to significant political events such as war and mass immigration. It can be defined as beginning around 1881, marking the birth of the first native MH speaker, to around 1949, marking the establishment of the State of Israel. Although the nascence of Modern Hebrew in the early-mid 19th century has been widely studied, Emergent Hebrew has suffered a lack of research, mostly due to a lack of resources \cite{Rubinstein2019}.
 
@@ -226,38 +226,43 @@ Upon looking at the distributions of lexical semantic change scores of all token
  \end{center}
 \end{table}
 
-\subsection{Some Examples}\todo{No transition from the previous section}
-Politically charged words, such as ethnic groups, governing bodies, and wars had particular interesting results. 
-\subsubsection{Example 1: Le'umi (trans. 'national')}
-The word "Le'umi" has several significantly different word-senses (not an exhaustive list): \todo{Since you lemmatized your data, I wonder what forms were merged into one. I'll include some links in an email  } 
-\begin{itemize}
-    \item Le'umi: National
-    \item Bank Le'umi: Name of a historical bank in Israel
-    \item Bituach Le'umi: Israeli health insurance system
-\end{itemize}
+\subsection{Relationship Between Polysemy and Orthographic Ambiguity}
 
-This polysemy is further deepened by MH's morphological richness, whose explicit expressions were discarded during lemmatization. There is a certain ambiguity that also exists on another axis due to MH's orthographic ambiguity.
 
-As shown in Figure \ref{leumi}, the PRT and APD values of the word "le'umi" do not change much over time. While the explanation for the PRT feels rather obvious, considering the lack of movement shown in figures \ref{Leumi1} through \ref{Leumi5}, why the APD values over time remain stagnant is unclear. That said, the JSD measure was significantly more sensitive; it is easy to track the change in clusters over time. Overall, the word-senses of each time period do appear to be relatively stable.
+% \subsection{Some Examples}\todo{No transition from the previous section}
+% Politically charged words, such as ethnic groups, governing bodies, and wars had particular interesting results. 
+% \subsubsection{Example 1: Le'umi (trans. 'national')}
+% The word "Le'umi" has several significantly different word-senses (not an exhaustive list): \todo{Since you lemmatized your data, I wonder what forms were merged into one. I'll include some links in an email  } 
+% \begin{itemize}
+%     \item Le'umi: National
+%     \item Bank Le'umi: Name of a historical bank in Israel
+%     \item Bituach Le'umi: Israeli health insurance system
+% \end{itemize}
 
-\subsubsection{Example 2: Aravi (trans. 'Arab')}
-Unlike the word "Le'umi", the word "Aravi" presents a more volatile semantic history, which is most obvious in the DIV and JSD measures, shown in Figure \ref{aravi}. Looking at the figures in the Appendix, it seems that this is caused by the word slowly forming distinct word-senses over time, peaking around 1935. Around that time was the Arab Revolt of 1936-1939, which may have contributed to the significant semantic drift.
+% This polysemy is further deepened by MH's morphological richness, whose explicit expressions were discarded during lemmatization. There is a certain ambiguity that also exists on another axis due to MH's orthographic ambiguity.
 
-\begin{figure*}[ht]
-\begin{center}
-\includegraphics[scale=0.7]{code/distance_imgs/ערבי.png}
-\caption{Diachronic lexical semantic change of the word "Aravi".}
-\end{center}
-\label{aravi}
-\end{figure*}
+% As shown in Figure \ref{leumi}, the PRT and APD values of the word "le'umi" do not change much over time. While the explanation for the PRT feels rather obvious, considering the lack of movement shown in figures \ref{Leumi1} through \ref{Leumi5}, why the APD values over time remain stagnant is unclear. That said, the JSD measure was significantly more sensitive; it is easy to track the change in clusters over time. Overall, the word-senses of each time period do appear to be relatively stable.
 
-\begin{figure*}[ht]
-\begin{center}
-\includegraphics[scale=0.7]{code/distance_imgs/לאומי.png}
-\caption{Diachronic lexical semantic change of the word "Le'umi".}
-\end{center}
-\label{leumi}
-\end{figure*}
+% \subsubsection{Example 2: Aravi (trans. 'Arab')}
+% Unlike the word "Le'umi", the word "Aravi" presents a more volatile semantic history, which is most obvious in the DIV and JSD measures, shown in Figure \ref{aravi}. Looking at the figures in the Appendix, it seems that this is caused by the word slowly forming distinct word-senses over time, peaking around 1935. Around that time was the Arab Revolt of 1936-1939, which may have contributed to the significant semantic drift.
+
+
+
+% \begin{figure*}[ht]
+% \begin{center}
+% \includegraphics[scale=0.7]{code/distance_imgs/ערבי.png}
+% \caption{Diachronic lexical semantic change of the word "Aravi".}
+% \end{center}
+% \label{aravi}
+% \end{figure*}
+
+% \begin{figure*}[ht]
+% \begin{center}
+% \includegraphics[scale=0.7]{code/distance_imgs/לאומי.png}
+% \caption{Diachronic lexical semantic change of the word "Le'umi".}
+% \end{center}
+% \label{leumi}
+% \end{figure*}
 
 \section{Conclusion}
 \subsection{Future Work}
