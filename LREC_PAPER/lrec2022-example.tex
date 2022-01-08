@@ -92,7 +92,7 @@ It should also be noted that many of these related works are concerned with lang
 \subsection{Preprocessing the JEMH}
 
 \subsubsection{Lemmatization}
-After tokenization, the corpus is lemmatized in order to relieve any bias created by Hebrew's morphological richness\cite{Laicher2021}. To do this, we utilize Yet Another Parser (YAP), a morphological analyzer for Modern Hebrew, written in Go \cite{yap}. Word forms, lemmas, POS tags, and any relevant morphological features are collected from YAP's morphological disambiguator. 
+After tokenization, the corpus is lemmatized in order to relieve any bias created by Hebrew's morphological richness \cite{Laicher2021}. To do this, we utilize Yet Another Parser (YAP), a morphological analyzer for Modern Hebrew, written in Go \cite{yap}. Word forms, lemmas, POS tags, and any relevant morphological features are collected from YAP's morphological disambiguator. 
 \subsubsection{Generating Contextualized Word Embeddings}
 To generate contextualized word embeddings, we fed the lemmatized corpus through AlephBERT, a large distribution of BERT, pre-trained on a variety of corpora, including Modern Hebrew Twitter, Wikipedia, and OSCAR \cite{alephBERT}. The raw contextualized word embeddings themselves were generated from its hidden states. We choose to omit any fine-tuning of the BERT model, due to its mixed results.
 
