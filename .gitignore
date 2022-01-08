@@ -1,4 +1,6 @@
-
+byp_decade_wums/
+byp_docs_with_relational_embeddings/
+dcwetk/
 /.idea
 *.xml
 code/utils/dcwetk/
