@@ -80,7 +80,7 @@ The following repositories contain the code we used for this experiment:
 \section{Related Work}
 Applying unsupervised machine learning methods to contextualized word embeddings has proven to be an effective technique for diachronic LSCD, and has been shown to positively correlate with human judgments regarding diachronic semantic shift \cite{Giulianelli2020,Kutuzov2020}, especially when the contextualized word embeddings are extracted from ELMo \cite{Kutuzov2020}. The specific methods used are diverse, ranging from tracking the movement of word embedding clouds through semantic space, to measuring change in word usage distributions over time via word-sense induction using clustering.
 
-There are several clustering methods that have been used for the latter method mentioned above. Clustering methods that require a user-defined number of clusters, such as K-Means Clustering  \cite{Giulianelli2020} or Agglomerative Clustering \cite{Laicher2021}, may be paired with the Silhouette Method to find the optimal number of clusters. Alternatively, a clustering method that predetermines the number of clusters may be used, such as Affinity Propagation \cite{Martinc2020,Kutuzov2020}. This is discussed further in \ref{clustering}.
+There are several clustering methods that have been used for the latter method mentioned above. Clustering methods that require a user-defined number of clusters, such as K-Means Clustering \cite{Giulianelli2020} or Agglomerative Clustering \cite{Laicher2021}, may be paired with the Silhouette Method to find the optimal number of clusters. Alternatively, a clustering method that predetermines the number of clusters may be used, such as Affinity Propagation \cite{Martinc2020,Kutuzov2020}. This is discussed further in \ref{clustering}.
 
 That said, the performance of type-based embeddings has been shown to exceed the performance of token-based embeddings in LSCD, although the performance of the latter can be significantly improved by reducing word-form bias through methods such as lemmatization \cite{Laicher2021}, and in certain cases, fine-tuning the model \cite{Martinc2020}. 
 
@@ -107,7 +107,7 @@ $$\textbf{p}^t_w = \frac{\sum_{x_i \in \textbf{U}^t_w} x_i}{N^t_w}$$
 \subsection{Measuring Distance}
 \label{distance}
 % need section on word usage matrix representation!!!
-To measure diachronic lexical semantic change of a token, we use 4 different methods, per \cite{Kutuzov2020,Giulianelli2020}. Given all embedded instances of a token $w$ in two time periods $t, t'$, we define word usage matrices $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$.
+To measure diachronic lexical semantic change of a token, we use 4 different methods, per \newcite{Kutuzov2020,Giulianelli2020}. Given all embedded instances of a token $w$ in two time periods $t, t'$, we define word usage matrices $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$.
 
 \subsubsection{Inverse Cosine Over Word Prototypes}
 Inverse Cosine Over Word Prototypes (PRT) measures the inverted cosine similarity $d$ between the prototypes ("averages") of two given word matrices $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$:
@@ -140,16 +140,16 @@ $$\Bigg | \frac{\sum_{x_i \in \textbf{U}^{t}_w} d(x_i, p^{t}_w)}{N^{t}_w} - \fra
 \label{clustering}
 As mentioned in \ref{JSD}, in order to calculate the Jensen-Shannon Divergence between two given word usage matrices, they must first be clustered in order to get their word usage distributions. There appears to be several schools of thought on how this should be done:
 \begin{itemize}
-    \item{Following \cite{Martinc2020,Kutuzov2020}, the clusters could be obtained using Affinity Propagation. Although this has a significant time complexity, it does not require a predefined number of clusters.}
-    \item{Following \cite{Laicher2021}, the clusters could be obtained using Agglomerative Clustering, with the number of clusters found by the Silhouette Method\cite{silhouette}, an algorithm that determines the optimal number of clusters between a given range.}
-    \item{Following \cite{Giulianelli2020}, the clusters could be obtained by using K-Means Clustering, with the number of clusters found by the Silhouette Method. The clusters are then run through Expectation Maximization (EM) for 10 iterations to reduce distortion.}
+    \item{Following \newcite{Martinc2020,Kutuzov2020}, the clusters could be obtained using Affinity Propagation. Although this has a significant time complexity, it does not require a predefined number of clusters.}
+    \item{Following \newcite{Laicher2021}, the clusters could be obtained using Agglomerative Clustering, with the number of clusters found by the Silhouette Method\cite{silhouette}, an algorithm that determines the optimal number of clusters between a given range.}
+    \item{Following \newcite{Giulianelli2020}, the clusters could be obtained by using K-Means Clustering, with the number of clusters found by the Silhouette Method. The clusters are then run through Expectation Maximization (EM) for 10 iterations to reduce distortion.}
 \end{itemize}
 
 After preprocessing a given word usage matrix pair $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$ by subtracting the mean and normalizing them to unit variance, we chose to cluster the word usage matrices together with Affinity Propagation (AP), following \cite{Martinc2020,Kutuzov2020}. Although the change in word usage is difficult to track due to the fact that AP naturally creates many clusters, it doesn't rely on an arbitrarily-set number of clusters which may not necessarily represent each sense in which a given word is used. To account for computational complexity, we randomly sampled each word usage matrix to a maximum size of 1,024 vectors (the maximum word usage matrix size to be clustered therefore has a maximum of 2,048 vectors).
 
 \section{Observations}
 \subsection{Distribution of Scores}
-Upon looking at the distributions of lexical semantic change scores of all tokens in a given period of time, it is evident that APD and JSD scores, describing the change in distribution of word-senses over a period of time, roughly fit a skewed normal distribution, shown by Figure \ref{1920_APD} and \ref{1920_JSD}, respectively. The skew of the distribution is much more prominent in the JSD scores, as shown in \ref{SkewKurtosis_JSDandAPD}. We hypothesize that this is due to the fact that Jensen-Shannon Divergence is not a metric, though its square root, Jensen-Shannon Distance (JSDist), is. As shown in \ref{1920_JSDist}, the distribution of Jensen-Shannon Distance values is much more even.
+Upon looking at the distributions of lexical semantic change scores of all tokens in a given period of time, it is evident that the distribution APD and JSD scores of all tokens in a given period of time, describing the change in distribution of word-senses over a period of time, roughly fits a skewed normal distribution, shown by Figure \ref{1920_APD} and \ref{1920_JSD}, respectively. The skew of the distribution is much more prominent in the JSD scores, as shown in \ref{SkewKurtosis_JSDandAPD}. We hypothesize that this is due to the fact that Jensen-Shannon Divergence is not a metric, though its square root, Jensen-Shannon Distance (JSDist), is. As shown in \ref{1920_JSDist}, the distribution of Jensen-Shannon Distance values is significantly less skewed.
 
 
 \begin{figure}[!h]
@@ -189,11 +189,11 @@ Upon looking at the distributions of lexical semantic change scores of all token
 \begin{table}[!h]
 \label{SkewKurtosis_JSDandAPD}
 \begin{center}
-\begin{tabularx}{\columnwidth}{|c|c|c|c|c|}
+\begin{tabularx}{\columnwidth}{|X|c|c|c|c|}
 
       \hline
-      Year&\multicolumn{2}{c}{JSD}&\multicolumn{2}{c}{APD}\\
-      \hline
+       Year&\multicolumn{2}{c}{JSD}&\multicolumn{2}{c}{APD}\\
+       \hline
       &Skew&Kurtosis&Skew&Kurtosis\\
       \hline
       1880&1.293&1.984&0.344&1.239\\
@@ -224,12 +224,12 @@ Upon looking at the distributions of lexical semantic change scores of all token
       \hline
 
 \end{tabularx}
-\caption{Skew and Kurtosis of JSD and APD values over time}
+\caption{Skew and Kurtosis of JSD and APD value distributions over time}
  \end{center}
 \end{table}
 
 \subsection{Effects of Ambiguous Orthography on Clustering Efficacy}
-As stated before, MH uses an abjad orthography that does not always notate vowels. This may lead to significant ambiguity, which is only augmented by MH's morphological richness. For example, the grapheme \</swnh> may refer to the following things:
+As stated before, MH uses an abjad orthography that does not always notate vowels. This may lead to significant ambiguity, which is only augmented by MH's morphological richness. For example, the grapheme \</swnh> may have any of the following meanings:
 \begin{itemize}
     \item /\textesh one/ repeat (verb, present participle, masculine singular)
     \item /\textesh ona/ repeat (verb, present participle, feminine singular)
@@ -239,7 +239,20 @@ As stated before, MH uses an abjad orthography that does not always notate vowel
     \item /\textesh una/ it was changed (verb, perfect aspect, 3rd person masculine singular, variant spelling)
 \end{itemize}
 
-As shown in (insert figure here), these different words don't appear to have a clustered structure, at least to the naked eye. 
+As shown in Figure \ref{embeddings_pos}\footnote{JJ, BN, VB, JJT, and BNT represent an adjective, participle, verb, construct adjective, and construct participle, respectively. Note that this is a PCA representation of the embeddings, and the relative distances of each embedding to another is approximate.}, a sample of the embeddings for the token discussed above, these different meanings do not appear to have a clustered structure. 
+
+To verify this, we randomly sampled 118 time-insensitive word usage matrices (i.e., word usage matrices belonging to the epoch 1880-1950), annotated with parts of speech for each token instance. Each word usage matrix had between 2-5 possible POS tags. We then clustered them via Affinity Propagation, the same clustering method we used for Jensen Shannon Divergence, which is discussed in Section \ref{JSD}. Defining a "homogeneous cluster" to be a cluster whose constituents all have the same part of speech, we then calculate the percentage of homogeneous clusters per $n$ number of parts of speech (again, $2 \leq n \leq 5$). Just 0.09\% of the clusters were homogeneous, though interestingly enough, there is a weakly positive correlation between the percentage of homogeneous clusters and number of parts of speech, with a Spearman Rank Correlation coefficient of 0.17.
+
+\begin{figure}[!h]
+\begin{center}
+%\fbox{\parbox{6cm}{
+%This is a figure with a caption.}}
+% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
+\includegraphics[scale=0.5]{code/embeddings_by_pos/שונה_1920.png}
+\caption{PCA representation of contextualized word embeddings of the token \</swnh> in years 1920-1925}
+\label{embeddings_pos}
+\end{center}
+\end{figure}
 
 % \subsection{Some Examples}\todo{No transition from the previous section}
 % Politically charged words, such as ethnic groups, governing bodies, and wars had particular interesting results. 
@@ -316,119 +329,15 @@ Place all acknowledgements (including those concerning research grants and fundi
 
 \nocite{*}
 \section{Bibliographical References}\label{reference}
-%\label{main:ref}
+\label{main:ref}
 
 \bibliographystyle{lrec2022-bib}
 \bibliography{lrec2022-example}
 
 \section{Language Resource References}
-% need to fix this
 \label{lr:ref}
 \bibliographystylelanguageresource{lrec2022-bib}
 \bibliographylanguageresource{languageresource}
 
-\section*{Appendices: CWE Representations of Tokens}
-These plots contain Principal Component Analysis (PCA) representations of contextualized word embeddings of the words "Le'umi" and "Aravi" in a given time period, where each embedding is reduced to 3 components (one is expressed by color). It should be noted that because the embeddings have been run through PCA, they are only approximate representations of the embeddings in their full, 768-dimensional form. The axes therefore don't have any meaning beyond relative distance between each point representing an embedding.
-
-\section*{Appendix: Contextual Word Embedding Graphs of "Le'umi"}
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{LREC_PAPER/leumi_cwes/1910.png}
-\caption{"Le'umi", 1910-1915.}
-\label{Leumi1}
-\end{center}
-\end{figure}
-
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{LREC_PAPER/leumi_cwes/1915.png}
-\caption{"Le'umi", 1915-1920.}
-\label{Leumi2}
-\end{center}
-\end{figure}
-
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{LREC_PAPER/leumi_cwes/1920.png}
-\caption{"Le'umi", 1920-1925.}
-\label{Leumi3}
-\end{center}
-\end{figure}
-
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{LREC_PAPER/leumi_cwes/1925.png}
-\caption{"Le'umi", 1925-1930.}
-\label{Leumi4}
-\end{center}
-\end{figure}
-
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{LREC_PAPER/leumi_cwes/1930.png}
-\caption{"Le'umi", 1930-1935.}
-\label{Leumi5}
-\end{center}
-\end{figure}
-
-\section*{Appendix: Contextual Word Embedding Graphs of "Aravi"}
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{LREC_PAPER/aravi_cwes/aravi_1920.png}
-\caption{"Aravi", 1920-1925.}
-\label{Aravi1}
-\end{center}
-\end{figure}
-
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{LREC_PAPER/aravi_cwes/aravi_1925.png}
-\caption{"Aravi", 1925-1930.}
-\label{Aravi2}
-\end{center}
-\end{figure}
-
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{LREC_PAPER/aravi_cwes/aravi_1930.png}
-\caption{"Aravi", 1930-1935.}
-\label{Aravi3}
-\end{center}
-\end{figure}
-
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{LREC_PAPER/aravi_cwes/aravi_1935.png}
-\caption{"Aravi", 1935-1940.}
-\label{Aravi4}
-\end{center}
-\end{figure}
 
 \end{document}
