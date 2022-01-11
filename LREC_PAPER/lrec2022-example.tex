@@ -35,15 +35,14 @@
 \newcommand{\secref}[1]{\StrSubstitute{\getrefnumber{#1}}{.}{ }}
 
 \title{\vspace*{.5\baselineskip} \textbf{Lexical Semantic Change Detection in Resource-Light, Morphologically Rich Languages: A Case Study in Emergent Modern Hebrew}}
-
-\name{Raz Besaleli, Zachary Schultz}
+\name{Raz Besaleli, Zachary Schultz, Anna Feldman, Jing Peng}
 
 \address{Montclair State University \\
         1 Normal Ave \\
         Montclair, NJ 07043, USA \\
          % Address1, Address2, Address3 \\
          % author1@xxx.yy, author2@zzz.edu, author3@hhh.com\\
-         \{besalelir1,schultzz1\}@montclair.edu\\}
+         \{besalelir1,schultzz1,feldmana,pengj\}@montclair.edu\\}
 
 
 
@@ -58,7 +57,7 @@ In the past few years, lexical semantic change detection (LSCD) using contextual
 \section{Introduction}
 
 \subsection{On Emergent Modern Hebrew}
-Modern Hebrew (MH) is a morphologically rich, resource-light language belonging to the Semitic branch of the Afro-Asiatic family. Its grammar is fusional and synthetic, with a complex verbal template system that often leads to significant morphological ambiguity. MH's orthography also contributes to this ambiguity, as it is an abjad that does not notate all vowels.
+Modern Hebrew (MH) is a morphologically rich, resource-light language belonging to the Semitic branch of the Afro-Asiatic family. Its grammar is fusional and synthetic, with a nonconcatenative, autosegmental\footnote{explain autosegmental morphology here} morphology \cite{nonlinearmorphology}, and a complex verbal template system that both often lead to significant morphological ambiguity. MH's orthography also contributes to this ambiguity, as it is an (impure) abjad that does not notate all vowels.
 These traits make MH a particularly challenging language to work with in NLP. They, along with "language-agnostic" tools' general incompatibility with MH, have contributed to a significant deficiency of NLP resources for the language \cite{tsarfaty2019whats}.
 Emergent Modern Hebrew, a particular chronolect of Modern Hebrew, is a historical period in which Hebrew was exposed to a significant amount of language contact due to significant political events such as war and mass immigration. It can be defined as beginning around 1881, marking the birth of the first native MH speaker, to around 1949, marking the establishment of the State of Israel. Although the nascence of Modern Hebrew in the early-mid 19th century has been widely studied, Emergent Hebrew has suffered a lack of research, mostly due to a lack of resources \cite{Rubinstein2019}.
 
@@ -84,7 +83,7 @@ There are several clustering methods that have been used for the latter method m
 
 That said, the performance of type-based embeddings has been shown to exceed the performance of token-based embeddings in LSCD, although the performance of the latter can be significantly improved by reducing word-form bias through methods such as lemmatization \cite{Laicher2021}, and in certain cases, fine-tuning the model \cite{Martinc2020}. 
 
-An alternative to LSCD that utilizes grammatical profiling instead of contextualized word embeddings has been shown to be just as effective, if not more \cite{grammaticalprofiling}, with the added benefit that semantic change that is detected is significant more traceable than its counterpart that uses contextualized word embeddings. That said, its performance is contingent on understanding which grammatical features are correlated to semantic change. Which features are significant varies from language to language, and thus requires resources such as an existing corpus that is annotated with semantic information.
+An alternative to LSCD that utilizes grammatical profiling instead of contextualized word embeddings has been shown to be just as effective, if not more \cite{grammaticalprofiling}, with the added benefit that semantic change that is detected is significantly more traceable than its counterpart that uses contextualized word embeddings. That said, its performance is contingent on understanding which grammatical features are correlated to semantic change. Which features are significant varies from language to language, and thus requires resources such as an existing corpus that is annotated with semantic information.
 
 It should also be noted that many of these related works are concerned with languages such as German, Swedish, and English, that had access to resources such as SemEval, and therefore had the ability to correlate their findings with human-annotated gold standards. Modern Hebrew does not have this luxury, which puts a significant limitation on what we are able to observe.
 \section{Experimental Design}
@@ -92,60 +91,61 @@ It should also be noted that many of these related works are concerned with lang
 \subsection{Preprocessing the JEMH}
 
 \subsubsection{Lemmatization}
-After tokenization, the corpus is lemmatized in order to relieve any bias created by Hebrew's morphological richness \cite{Laicher2021}. To do this, we utilize Yet Another Parser (YAP), a morphological analyzer for Modern Hebrew, written in Go \cite{yap}. Word forms, lemmas, POS tags, and any relevant morphological features are collected from YAP's morphological disambiguator. 
+After tokenization, the corpus is lemmatized in order to relieve any bias created by Hebrew's morphological richness \cite{Laicher2021}. To do this, we utilize Yet Another Parser (YAP), a morphological analyzer for Modern Hebrew, written in Go \cite{yap}. Word forms, lemmas, POS tags, and any relevant morphological features are collected from YAP's morphological disambiguator. \todo{say 1-2 sentences  the lemmatizer works. I think it first provides lexicon-based morphological analysis followed by a disambiguation step involving morphosyntactic parsing?} 
+
 \subsubsection{Generating Contextualized Word Embeddings}
 To generate contextualized word embeddings, we fed the lemmatized corpus through AlephBERT, a large distribution of BERT, pre-trained on a variety of corpora, including Modern Hebrew Twitter, Wikipedia, and OSCAR \cite{alephBERT}. The raw contextualized word embeddings themselves were generated from its hidden states. We choose to omit any fine-tuning of the BERT model, due to its mixed results.
 
-\subsection{Word Usage Matrix}
-Given a token $w$ and a time period $t$, we define word usage matrix $\textbf{U}^{t}_w$, where a word usage matrix is a matrix containing the contextualized word embeddings of all instances of a given token $w$ in time period $t$, and its size (i.e., number of embeddings) $N^t_w$.
+\subsection{Word Usage Set}
+Given a token $w$ and a time period $t$, we define word usage set\footnote{Word usage sets may also be known as 'word usage matrices' in other relevant literature \cite{Kutuzov2020,Giulianelli2020}. A similar concept, known as Word Usage Graphs, are used by authors such as \newcite{Laicher2021}.} $\textbf{U}^{t}_w$, where a word usage set is a set containing the contextualized word embeddings of all instances of a given token $w$ in time period $t$, and its size (i.e., number of embeddings) $N^t_w$.
 
 \subsubsection{Prototype}
-The prototype of a word usage matrix, which may be interpreted as a "context-averaged embedding" of a token, is calculated as follows:
+The prototype of a word usage set, which may be interpreted as a "context-averaged embedding" of a given token $w$, is calculated as follows:
 
 $$\textbf{p}^t_w = \frac{\sum_{x_i \in \textbf{U}^t_w} x_i}{N^t_w}$$
 
 \subsection{Measuring Distance}
 \label{distance}
 % need section on word usage matrix representation!!!
-To measure diachronic lexical semantic change of a token, we use 4 different methods, per \newcite{Kutuzov2020,Giulianelli2020}. Given all embedded instances of a token $w$ in two time periods $t, t'$, we define word usage matrices $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$.
+To measure diachronic lexical semantic change of a token, we use 4 different methods, per \newcite{Kutuzov2020,Giulianelli2020}. Given all embedded instances of a token $w$ in two time periods $t, t'$, we define word usage sets $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$.
 
 \subsubsection{Inverse Cosine Over Word Prototypes}
-Inverse Cosine Over Word Prototypes (PRT) measures the inverted cosine similarity $d$ between the prototypes ("averages") of two given word matrices $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$:
+Inverse Cosine Over Word Prototypes (PRT) measures the inverted cosine similarity $d$ between the prototypes ("averages") of two given word sets $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$:
 $$\textsc{PRT}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = d(p^{t}_w, p^{t'}_w)^{-1}$$
 % $$PRT(\textbf{u}^{t}_w, \textbf{u}^{t'}_w) = d(\frac{\sum_{x_i \in \textbf{u}^{t}_w} x_i}{N^{t}_{w}}, \frac{\sum_{x_i \in \textbf{u}^{t'}_w} x_i}{N^{t'}_{w}})^{-1}$$
 % Because a prototype is a relatively shallow representation of a word usage matrix, PRT only gives an idea of the absolute diachronic movement of a word usage matrix in space, and does not explicitly embed how the structure of the word usage matrix changes over time. 
-This may be interpreted as the distance between a given token's "context-averaged embeddings" in two different time periods.
+This may be interpreted as the cosine distance between a given token's "context-averaged embeddings" in two different time periods.
 
 \subsubsection{Average Pairwise Cosine Distance Between Token Embeddings}
-Average Pairwise Cosine Distance Between Token Embeddings (APD) sums all cosine distances between every possible pair of embeddings in each given word usage matrix $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$, which is then divided by the aggregate number of possible embedding pairs:
+Average Pairwise Cosine Distance Between Token Embeddings (APD) sums all cosine distances between every possible pair of embeddings in each given word usage sets $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$, which is then divided by the aggregate number of possible embedding pairs:
 $$\textsc{APD}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = \frac{1}{N^{t}_w \cdot N^{t'}_w} \sum_{x_i \in \textbf{U}^{t}_w, x_j \in \textbf{U}^{t'}_w} d(x_i, x_j)$$
-Like PRT, since APD also utilizes a somewhat shallow understanding of each word usage matrix, it also does not embed any meaningful information of how the structure of the word usage matrix changes over time. Thus, it may be interpreted as the average distance each individual embedding moves over time.\\
+Like PRT, since APD also utilizes a somewhat shallow understanding of each word usage set, it also does not embed any meaningful information of how the structure of the word usage set changes over time. Thus, it may be interpreted as the average distance each individual embedding moves over time.\\
 
-Because APD has a significant computational load, with a worst-case time complexity of $O(n^2)$, we chose to run it on samples of each word usage matrices in the event that $N^{t}_w \cdot N^{t'}_w > 256$. How large these samples were was calculated by the following formula for each pair of word usage matrices:
+Because APD has a significant computational load, with a worst-case time complexity of $O(n^2)$, we chose to run it on samples of each word usage sets in the event that $N^{t}_w \cdot N^{t'}_w > 256$. How large these samples were was calculated by the following formula for each pair of word usage matrices:
 $$n(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = \frac{256}{N^{t}_w \cdot N^{t'}_w}$$
 While not ideal, this gave us a reasonable cap on the number of possible computations that could occur that maintained the relative sizes of each word usage matrix. % reword this
 
 \subsubsection{Jensen-Shannon Divergence}
 \label{JSD}
-Jensen-Shannon Divergence (JSD) measures how the distribution of word-senses for each word usage matrix $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$ changes over time, where $H$ is the Boltzmann-Gibbs-Shannon Entropy \cite{jensenshannon}:
+Jensen-Shannon Divergence (JSD) measures how the distribution of word-senses for each word usage set $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$ changes over time, where $H$ is the Boltzmann-Gibbs-Shannon Entropy \cite{jensenshannon}:
 \small $$\textsc{JSD}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = H(\frac{1}{2}(\textbf{U}^{t}_w + \textbf{U}^{t'}_w)) - \frac{1}{2}(H(\textbf{U}^{t}_w) - H(\textbf{U}^{t'}_w))$$
-The word usage matrices above must be clustered to obtain the distribution of word-senses mentioned above. How we obtained said clusterings is discussed in the \ref{clustering}.
+The word usage sets above must be clustered to obtain the distribution of word-senses mentioned above. How we obtained said clusterings is discussed in the \ref{clustering}.
 \subsubsection{Difference between Token Embedding Diversities}
-Difference between Token Embedding Diversity (DIV) measures the difference in the average distance of a given embedding in a word usage matrix to its prototype between two word usage matrices $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$:
+Difference between Token Embedding Diversity (DIV) measures the difference in the average distance of a given embedding in a word usage set to its prototype between two word usage sets $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$:
 % align with amsmath or reformat
 $$\textsc{DIV}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = $$ 
 $$\Bigg | \frac{\sum_{x_i \in \textbf{U}^{t}_w} d(x_i, p^{t}_w)}{N^{t}_w} - \frac{\sum_{x_j \in \textbf{U}^{t'}_w} d(x_j, p^{t'}_w)}{N^{t'}_w} \Bigg |$$
 
 \subsection{Clustering}
 \label{clustering}
-As mentioned in \ref{JSD}, in order to calculate the Jensen-Shannon Divergence between two given word usage matrices, they must first be clustered in order to get their word usage distributions. There appears to be several schools of thought on how this should be done:
+As mentioned in \ref{JSD}, in order to calculate the Jensen-Shannon Divergence between two given word usage sets, they must first be clustered in order to get their word usage distributions. There appears to be several schools of thought on how this should be done:
 \begin{itemize}
     \item{Following \newcite{Martinc2020,Kutuzov2020}, the clusters could be obtained using Affinity Propagation. Although this has a significant time complexity, it does not require a predefined number of clusters.}
     \item{Following \newcite{Laicher2021}, the clusters could be obtained using Agglomerative Clustering, with the number of clusters found by the Silhouette Method\cite{silhouette}, an algorithm that determines the optimal number of clusters between a given range.}
     \item{Following \newcite{Giulianelli2020}, the clusters could be obtained by using K-Means Clustering, with the number of clusters found by the Silhouette Method. The clusters are then run through Expectation Maximization (EM) for 10 iterations to reduce distortion.}
 \end{itemize}
 
-After preprocessing a given word usage matrix pair $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$ by subtracting the mean and normalizing them to unit variance, we chose to cluster the word usage matrices together with Affinity Propagation (AP), following \cite{Martinc2020,Kutuzov2020}. Although the change in word usage is difficult to track due to the fact that AP naturally creates many clusters, it doesn't rely on an arbitrarily-set number of clusters which may not necessarily represent each sense in which a given word is used. To account for computational complexity, we randomly sampled each word usage matrix to a maximum size of 1,024 vectors (the maximum word usage matrix size to be clustered therefore has a maximum of 2,048 vectors).
+After preprocessing a given word usage set pair $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$ by subtracting the mean and normalizing them to unit variance, we chose to cluster the word usage sets together with Affinity Propagation (AP), following \cite{Martinc2020,Kutuzov2020}. Although the change in word usage is difficult to track due to the fact that AP naturally creates many clusters, it doesn't rely on an arbitrarily-set number of clusters which may not necessarily represent each sense in which a given word is used. To account for computational complexity, we randomly sampled each word usage matrix to a maximum size of 1,024 vectors (the maximum word usage set size to be clustered therefore has a maximum of 2,048 vectors).
 
 \section{Observations}
 \subsection{Distribution of Scores}
@@ -185,16 +185,15 @@ Upon looking at the distributions of lexical semantic change scores of all token
 \end{center}
 \end{figure}
 
-% TODO: the borders are a bit screwy, fix later!!
 \begin{table}[!h]
 \label{SkewKurtosis_JSDandAPD}
 \begin{center}
 \begin{tabularx}{\columnwidth}{|X|c|c|c|c|}
 
       \hline
-       Year&\multicolumn{2}{c}{JSD}&\multicolumn{2}{c}{APD}\\
+       &\multicolumn{2}{c|}{JSD}&\multicolumn{2}{c|}{APD}\\
        \hline
-      &Skew&Kurtosis&Skew&Kurtosis\\
+      Year&Skew&Kurtosis&Skew&Kurtosis\\
       \hline
       1880&1.293&1.984&0.344&1.239\\
       \hline
@@ -239,9 +238,8 @@ As stated before, MH uses an abjad orthography that does not always notate vowel
     \item /\textesh una/ it was changed (verb, perfect aspect, 3rd person masculine singular, variant spelling)
 \end{itemize}
 
-As shown in Figure \ref{embeddings_pos}\footnote{JJ, BN, VB, JJT, and BNT represent an adjective, participle, verb, construct adjective, and construct participle, respectively. Note that this is a PCA representation of the embeddings, and the relative distances of each embedding to another is approximate.}, a sample of the embeddings for the token discussed above, these different meanings do not appear to have a clustered structure. 
-
-To verify this, we randomly sampled 118 time-insensitive word usage matrices (i.e., word usage matrices belonging to the epoch 1880-1950), annotated with parts of speech for each token instance. Each word usage matrix had between 2-5 possible POS tags. We then clustered them via Affinity Propagation, the same clustering method we used for Jensen Shannon Divergence, which is discussed in Section \ref{JSD}. Defining a "homogeneous cluster" to be a cluster whose constituents all have the same part of speech, we then calculate the percentage of homogeneous clusters per $n$ number of parts of speech (again, $2 \leq n \leq 5$). Just 0.09\% of the clusters were homogeneous, though interestingly enough, there is a weakly positive correlation between the percentage of homogeneous clusters and number of parts of speech, with a Spearman Rank Correlation coefficient of 0.17.
+As shown in Figure \ref{embeddings_pos}\footnote{JJ, BN, VB, JJT, and BNT represent an adjective, participle, verb, construct adjective, and construct participle, respectively. Note that this is a PCA representation of the embeddings, and the relative distances of each embedding to another is approximate. The complete tagset used by YAP may be found on p. 7 of \newcite{treebank}.}, a sample of the embeddings for the token discussed above, these different meanings do not appear to have a clustered structure. 
+To verify this, we randomly sampled 118 time-insensitive word usage sets (i.e., word usage matrices belonging to the epoch 1880-1950), annotated with parts of speech for each token instance. Each word usage matrix had instances with between 2-5 possible POS tags. We then clustered them via Affinity Propagation, the same clustering method we used for Jensen Shannon Divergence, which is discussed in Section \ref{JSD}. Defining a "homogeneous cluster" to be a cluster whose constituents all have the same part of speech, we then calculated the percentage of homogeneous clusters per $n$ number of parts of speech (again, $2 \leq n \leq 5$). Just 9\% of the clusters were homogeneous. Interestingly enough, however, there is a weakly positive correlation between the percentage of homogeneous clusters and number of parts of speech in a given cluster, with a Spearman Rank Correlation coefficient of 0.17.
 
 \begin{figure}[!h]
 \begin{center}
