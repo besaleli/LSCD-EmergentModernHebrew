@@ -149,41 +149,41 @@ After preprocessing a given word usage set pair $\textbf{U}^{t}_w, \textbf{U}^{t
 
 \section{Observations}
 \subsection{Distribution of Scores}
-Upon looking at the distributions of lexical semantic change scores of all tokens in a given period of time, it is evident that the distribution APD and JSD scores of all tokens in a given period of time, describing the change in distribution of word-senses over a period of time, roughly fits a skewed normal distribution, shown by Figure \ref{1920_APD} and \ref{1920_JSD}, respectively. The skew of the distribution is much more prominent in the JSD scores, as shown in \ref{SkewKurtosis_JSDandAPD}. We hypothesize that this is due to the fact that Jensen-Shannon Divergence is not a metric, though its square root, Jensen-Shannon Distance (JSDist), is. As shown in \ref{1920_JSDist}, the distribution of Jensen-Shannon Distance values is significantly less skewed.
+Upon looking at the distributions of lexical semantic change scores of all tokens in a given period of time, it is evident that the distribution APD and JSD scores of all tokens in a given period of time, describing the change in distribution of word-senses over a period of time, roughly fits a skewed normal distribution, the skew values in Table \ref{SkewKurtosis_JSDandAPD}, respectively. The skew of the distribution is much more prominent in the JSD scores.. We hypothesize that this is due to the fact that Jensen-Shannon Divergence is not a metric, though its square root, Jensen-Shannon Distance (JSDist), whose distributions are significantly less skewed.
 
 
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{code/distribution_imgs/1920_APD.png}
-\caption{Distribution of APD scores (by token) from periods 1920-1925 to 1925-1930.}
-\label{1920_APD}
-\end{center}
-\end{figure}
+% \begin{figure}[!h]
+% \begin{center}
+% %\fbox{\parbox{6cm}{
+% %This is a figure with a caption.}}
+% % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
+% \includegraphics[scale=0.5]{code/distribution_imgs/1920_APD.png}
+% \caption{Distribution of APD scores (by token) from periods 1920-1925 to 1925-1930.}
+% \label{1920_APD}
+% \end{center}
+% \end{figure}
 
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{code/distribution_imgs/1920_JSD.png}
-\caption{Distribution of JSD scores (by token) from periods 1920-1925 to 1925-1930.}
-\label{1920_JSD}
-\end{center}
-\end{figure}
+% \begin{figure}[!h]
+% \begin{center}
+% %\fbox{\parbox{6cm}{
+% %This is a figure with a caption.}}
+% % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
+% \includegraphics[scale=0.5]{code/distribution_imgs/1920_JSD.png}
+% \caption{Distribution of JSD scores (by token) from periods 1920-1925 to 1925-1930.}
+% \label{1920_JSD}
+% \end{center}
+% \end{figure}
 
-\begin{figure}[!h]
-\begin{center}
-%\fbox{\parbox{6cm}{
-%This is a figure with a caption.}}
-% old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{code/distribution_imgs/1920_JSDist.png}
-\caption{Distribution of JSDist scores (by token) from periods 1920-1925 to 1925-1930.}
-\label{1920_JSDist}
-\end{center}
-\end{figure}
+% \begin{figure}[!h]
+% \begin{center}
+% %\fbox{\parbox{6cm}{
+% %This is a figure with a caption.}}
+% % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
+% \includegraphics[scale=0.5]{code/distribution_imgs/1920_JSDist.png}
+% \caption{Distribution of JSDist scores (by token) from periods 1920-1925 to 1925-1930.}
+% \label{1920_JSDist}
+% \end{center}
+% \end{figure}
 
 \begin{table}[!h]
 \label{SkewKurtosis_JSDandAPD}
