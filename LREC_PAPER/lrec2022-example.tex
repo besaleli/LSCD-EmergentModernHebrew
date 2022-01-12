@@ -91,7 +91,8 @@ It should also be noted that many of these related works are concerned with lang
 \subsection{Preprocessing the JEMH}
 
 \subsubsection{Lemmatization}
-After tokenization, the corpus is lemmatized in order to relieve any bias created by Hebrew's morphological richness \cite{Laicher2021}. To do this, we utilize Yet Another Parser (YAP), a morphological analyzer for Modern Hebrew, written in Go \cite{yap}. Word forms, lemmas, POS tags, and any relevant morphological features are collected from YAP's morphological disambiguator. \todo{say 1-2 sentences  the lemmatizer works. I think it first provides lexicon-based morphological analysis followed by a disambiguation step involving morphosyntactic parsing?} 
+After tokenization, the corpus is lemmatized in order to relieve any bias created by Hebrew's morphological richness \cite{Laicher2021}. To do this, we utilize Yet Another Parser (YAP), a morphological analyzer for Modern Hebrew, written in Go \cite{yap}. YAP accounts for Hebrew's exceptional morphological richness by first performing a lexical-based morphological analysis, then performing a morphosyntactic analysis for disambiguation. Word forms, lemmas, POS tags, and any relevant morphological features are collected from YAP's morphological disambiguator. 
+%\todo{say 1-2 sentences on how  the lemmatizer works. I think it first provides lexicon-based morphological analysis followed by a disambiguation step involving morphosyntactic parsing?} 
 
 \subsubsection{Generating Contextualized Word Embeddings}
 To generate contextualized word embeddings, we fed the lemmatized corpus through AlephBERT, a large distribution of BERT, pre-trained on a variety of corpora, including Modern Hebrew Twitter, Wikipedia, and OSCAR \cite{alephBERT}. The raw contextualized word embeddings themselves were generated from its hidden states. We choose to omit any fine-tuning of the BERT model, due to its mixed results.
@@ -119,11 +120,9 @@ This may be interpreted as the cosine distance between a given token's "context-
 \subsubsection{Average Pairwise Cosine Distance Between Token Embeddings}
 Average Pairwise Cosine Distance Between Token Embeddings (APD) sums all cosine distances between every possible pair of embeddings in each given word usage sets $\textbf{U}^{t}_w, \textbf{U}^{t'}_w$, which is then divided by the aggregate number of possible embedding pairs:
 $$\textsc{APD}(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = \frac{1}{N^{t}_w \cdot N^{t'}_w} \sum_{x_i \in \textbf{U}^{t}_w, x_j \in \textbf{U}^{t'}_w} d(x_i, x_j)$$
-Like PRT, since APD also utilizes a somewhat shallow understanding of each word usage set, it also does not embed any meaningful information of how the structure of the word usage set changes over time. Thus, it may be interpreted as the average distance each individual embedding moves over time.\\
+Like PRT, since APD also utilizes a somewhat shallow understanding of each word usage set, it also does not embed any meaningful information of how the structure of the word usage set changes over time. Thus, it may be interpreted as the average distance any given individual embedding in a word usage set may move over time.\\
 
-Because APD has a significant computational load, with a worst-case time complexity of $O(n^2)$, we chose to run it on samples of each word usage sets in the event that $N^{t}_w \cdot N^{t'}_w > 256$. How large these samples were was calculated by the following formula for each pair of word usage matrices:
-$$n(\textbf{U}^{t}_w, \textbf{U}^{t'}_w) = \frac{256}{N^{t}_w \cdot N^{t'}_w}$$
-While not ideal, this gave us a reasonable cap on the number of possible computations that could occur that maintained the relative sizes of each word usage matrix. % reword this
+Because APD has a significant computational load, with a worst-case time complexity of $O(n^2)$, in the event that any given word usage set exceeded a size of 256, we randomly sampled 256 embeddings from said word usage set. This gave us a reasonable cap on the number of possible computations that could occur that maintained the relative sizes of each word usage matrix. % reword this
 
 \subsubsection{Jensen-Shannon Divergence}
 \label{JSD}
@@ -238,7 +237,7 @@ As stated before, MH uses an abjad orthography that does not always notate vowel
     \item /\textesh una/ it was changed (verb, perfect aspect, 3rd person masculine singular, variant spelling)
 \end{itemize}
 
-As shown in Figure \ref{embeddings_pos}\footnote{JJ, BN, VB, JJT, and BNT represent an adjective, participle, verb, construct adjective, and construct participle, respectively. Note that this is a PCA representation of the embeddings, and the relative distances of each embedding to another is approximate. The complete tagset used by YAP may be found on p. 7 of \newcite{treebank}.}, a sample of the embeddings for the token discussed above, these different meanings do not appear to have a clustered structure. 
+As shown in Figure \ref{embeddings_pos}\footnote{JJ and VB represent 'adjective' and 'verb', respectively. Note that this is a PCA representation of the embeddings, and the relative distances of each embedding to another is approximate. The complete tagset used by YAP may be found on p. 7 of \newcite{treebank}.}, a sample of the embeddings for the token discussed above, these different meanings do not appear to have a clustered structure. 
 To verify this, we randomly sampled 118 time-insensitive word usage sets (i.e., word usage matrices belonging to the epoch 1880-1950), annotated with parts of speech for each token instance. Each word usage matrix had instances with between 2-5 possible POS tags. We then clustered them via Affinity Propagation, the same clustering method we used for Jensen Shannon Divergence, which is discussed in Section \ref{JSD}. Defining a "homogeneous cluster" to be a cluster whose constituents all have the same part of speech, we then calculated the percentage of homogeneous clusters per $n$ number of parts of speech (again, $2 \leq n \leq 5$). Just 9\% of the clusters were homogeneous. Interestingly enough, however, there is a weakly positive correlation between the percentage of homogeneous clusters and number of parts of speech in a given cluster, with a Spearman Rank Correlation coefficient of 0.17.
 
 \begin{figure}[!h]
@@ -246,8 +245,8 @@ To verify this, we randomly sampled 118 time-insensitive word usage sets (i.e., 
 %\fbox{\parbox{6cm}{
 %This is a figure with a caption.}}
 % old picture \includegraphics[scale=0.5]{lrec2020W-image1.eps} 
-\includegraphics[scale=0.5]{code/embeddings_by_pos/שונה_1920.png}
-\caption{PCA representation of contextualized word embeddings of the token \</swnh> in years 1920-1925}
+\includegraphics[scale=0.5]{code/embeddings_by_pos/שונה_1905.png}
+\caption{PCA representation of contextualized word embeddings of the token \</swnh> in years 1905-1910.}
 \label{embeddings_pos}
 \end{center}
 \end{figure}
@@ -321,7 +320,7 @@ While this experiment was interesting, again, it is not guaranteed that semantic
 % \end{table*}
 %
 
-\section{Acknowledgements}
+\section*{Acknowledgements}
 
 Place all acknowledgements (including those concerning research grants and funding) in a separate section at the end of the paper.
 
